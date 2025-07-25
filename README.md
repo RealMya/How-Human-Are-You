@@ -1,1 +1,1 @@
-# Test-Your-Alignment-Instincts
+# Test Your Alignment Instincts
