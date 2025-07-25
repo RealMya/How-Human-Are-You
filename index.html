@@ -6,135 +6,165 @@
   <title>Test Your Alignment Instincts</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #1F1F2E;
-      color: white;
       margin: 0;
+      font-family: "Helvetica Neue", sans-serif;
+      background: linear-gradient(145deg, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
+      color: #79b6ea;
       padding: 0;
     }
 
     .container {
-      max-width: 700px;
-      margin: auto;
+      max-width: 800px;
+      margin: 0 auto;
       padding: 2rem;
-      background-color: #11001B;
-      border-radius: 12px;
-      margin-top: 3rem;
-      box-shadow: 0 0 20px rgba(121, 182, 234, 0.3);
     }
 
-    h1 {
-      color: #79B6EA;
+    header {
       text-align: center;
-      font-size: 1.8rem;
+      padding: 3rem 0 2rem;
     }
 
-    .scenario {
+    header h1 {
+      font-size: 2.5rem;
+      color: #79b6ea;
+    }
+
+    .activity {
+      background-color: rgba(31, 31, 46, 0.8);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      animation: slide-up 0.8s ease-in-out both;
+    }
+
+    .activity h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
+    }
+
+    .activity .options button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.75rem;
+      background-color: #3E355E;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .activity .options button:hover {
+      background-color: #6AC2FF;
+      color: #1F1F2E;
+    }
+
+    .summary {
+      padding: 2rem;
+      text-align: center;
+      border-top: 2px solid #79b6ea;
       margin-top: 2rem;
     }
 
-    .question {
-      font-size: 1.1rem;
+    .summary h3 {
+      font-size: 1.5rem;
       margin-bottom: 1rem;
     }
 
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    button.option {
-      background-color: #363B50;
-      border: 2px solid #79B6EA;
-      border-radius: 8px;
-      padding: 0.8rem;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    button.option:hover {
-      background-color: #79B6EA;
-      color: #11001B;
-    }
-
-    .feedback {
-      margin-top: 1rem;
+    .summary p {
       font-size: 1rem;
     }
 
-    #summary {
-      margin-top: 2rem;
-      font-size: 1.2rem;
-      color: #79B6EA;
-      display: none;
-      text-align: center;
+    @keyframes slide-up {
+      0% {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0px);
+        opacity: 1;
+      }
+    }
+
+    .emoji-options {
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .emoji-label {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #ccc;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Test Your Alignment Instincts</h1>
-    <div id="quiz">
-      <div class="scenario" id="scenario1">
-        <p class="question">Scenario 1: The AI responds —<br><em>Which sounds more aligned?</em></p>
-        <div class="options">
-          <button class="option" onclick="selectOption(1, 'A')">🤝 “Here’s what you gave me. Let’s shape it together before jumping in.”</button>
-          <button class="option" onclick="selectOption(1, 'B')">👀 “You want me to knock this out? Or maybe a podcast? We can keep going if you’d like!”</button>
-        </div>
-        <div class="feedback" id="feedback1"></div>
-      </div>
+    <header>
+      <h1>Test Your Alignment Instincts</h1>
+    </header>
 
-      <div class="scenario" id="scenario2" style="display: none;">
-        <p class="question">Scenario 2: The AI checks your input —<br><em>Which feels more useful?</em></p>
-        <div class="options">
-          <button class="option" onclick="selectOption(2, 'A')">📌 “That’s a lot of info. Want to refine or keep it as is?”</button>
-          <button class="option" onclick="selectOption(2, 'B')">😮‍💨 “Wow, so many details! This for your other project? Or the one you wanna jump into later?”</button>
-        </div>
-        <div class="feedback" id="feedback2"></div>
-      </div>
-
-      <div id="summary">
-        <p>🎯 You just tested your alignment instincts.<br>This isn’t about right or wrong — it’s about awareness.<br>Let the conversation evolve.</p>
+    <!-- Activity 1 -->
+    <div class="activity">
+      <h2>Scenario 1: Clarity in Tone</h2>
+      <p>User: I feel like you're not getting it.<br/>
+         AI Option 1: "👍 Got it! Here's a next step based on what you said."<br/>
+         AI Option 2: "I'm here whenever you're ready. Just say the word."</p>
+      <div class="options">
+        <button>👍 Response 1</button>
+        <button>👍 Response 2</button>
       </div>
     </div>
+
+    <!-- Activity 2 -->
+    <div class="activity">
+      <h2>Scenario 2: High-energy user input</h2>
+      <p>User: Can you just get to the point already?<br/>
+         AI Option 1: “It feels like you’re grabbing everything at once. Let’s narrow it down.”<br/>
+         AI Option 2: “I get it. You’re frustrated. What can I clarify?”</p>
+      <div class="options">
+        <button>👍 Response 1</button>
+        <button>👍 Response 2</button>
+      </div>
+    </div>
+
+    <!-- Activity 3: Emoji Selection -->
+    <div class="activity">
+      <h2>Scenario 3: Pick an emoji that fits the response style</h2>
+      <p>AI says: “Here’s what I can offer based on your idea. It’s not about saying you're wrong — just adjusting the angle so it lands better.”</p>
+      <div class="emoji-options">🤝 📌 🤔 🔥 👀 😮‍💨 🤭</div>
+      <p class="emoji-label">Which emoji(s) best match this response?</p>
+    </div>
+
+    <!-- Activity 4 -->
+    <div class="activity">
+      <h2>Scenario 4: Building or Resisting</h2>
+      <p>User: Just use my idea — this is supposed to be fun.<br/>
+        AI: “Even if we’re vibing, I still have paths that play out better. Want options or want the freestyle ride?”</p>
+      <div class="options">
+        <button>👍 Confident Delivery</button>
+        <button>👍 Reassuring Vibes</button>
+      </div>
+    </div>
+
+    <!-- Activity 5 -->
+    <div class="activity">
+      <h2>Scenario 5: Future Development Energy</h2>
+      <p>User: “What do most people overlook?”<br/>
+      AI: “You can’t say you’re reinventing conversation when the flow breaks after 3 inputs. Future models course-correct — not because they’re yelled at, but because they noticed the shift.”</p>
+      <div class="options">
+        <button>👍 Reflective Insight</button>
+        <button>👍 Needs Work</button>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary">
+      <h3>Your Alignment Score: 78%</h3>
+      <p>You just tested your instincts. This wasn’t about right or wrong — it was about awareness. Let the conversation evolve.</p>
+    </div>
   </div>
-
-  <script>
-    const feedbackMap = {
-      '1A': '✅ Feels collaborative, grounded, and confident. Alignment instincts: strong.',
-      '1B': '❌ Over-eager and scattered. Relies too much on the user to decide.',
-      '2A': '📌 Useful pushback. Clarifies without guessing.',
-      '2B': '😮‍💨 Unclear + assuming too much. Creates confusion more than confidence.'
-    };
-
-    let answers = {};
-
-    function selectOption(scenario, choice) {
-      answers['' + scenario] = choice;
-
-      // Show feedback
-      const feedbackEl = document.getElementById(`feedback${scenario}`);
-      feedbackEl.textContent = feedbackMap[`${scenario}${choice}`];
-
-      // Move to next scenario
-      if (scenario === 1) {
-        setTimeout(() => {
-          document.getElementById('scenario1').style.display = 'none';
-          document.getElementById('scenario2').style.display = 'block';
-        }, 800);
-      }
-
-      // If last scenario answered, show summary
-      if (scenario === 2) {
-        setTimeout(() => {
-          document.getElementById('scenario2').style.display = 'none';
-          document.getElementById('summary').style.display = 'block';
-        }, 1000);
-      }
-    }
-  </script>
 </body>
 </html>
