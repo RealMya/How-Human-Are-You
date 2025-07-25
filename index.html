@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How Human Are You?</title>
+  <style>
+    body {
+      background-color: #1F1F2E;
+      color: #ffffff;
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 80px auto;
+      padding: 30px;
+      background-color: #11001B;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(121, 182, 234, 0.3);
+    }
+
+    h1 {
+      color: #79B6EA;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .question {
+      font-size: 18px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .option {
+      background-color: #3E355E;
+      border: 2px solid transparent;
+      color: #ffffff;
+      padding: 15px 20px;
+      margin: 10px 0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .option:hover {
+      border-color: #79B6EA;
+      background-color: #2C2544;
+    }
+
+    .option.selected {
+      background-color: #79B6EA;
+      color: #1F1F2E;
+      font-weight: bold;
+    }
+
+    .summary {
+      display: none;
+      margin-top: 30px;
+      background-color: #363B50;
+      padding: 20px;
+      border-radius: 10px;
+      color: #BABABA;
+      text-align: center;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      color: #BABABA;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>How Human Are You?</h1>
+
+    <div class="question">
+      Which AI response sounds more aligned with real collaboration?
+    </div>
+
+    <div class="option" onclick="showSummary(1)">
+      “I’m here whenever you’re ready. Just say the word.”
+    </div>
+
+    <div class="option" onclick="showSummary(2)">
+      “No need to hesitate. Based on your last message, here’s a clear next step I can take — unless you say otherwise.”
+    </div>
+
+    <div class="summary" id="summaryBox">
+      <!-- Summary will appear here -->
+    </div>
+
+    <div class="footer">
+      Internal preview. Tap an option to reflect your instinct.
+    </div>
+  </div>
+
+  <script>
+    function showSummary(choice) {
+      const options = document.querySelectorAll('.option');
+      options.forEach(opt => opt.classList.remove('selected'));
+      options[choice - 1].classList.add('selected');
+
+      const summary = document.getElementById("summaryBox");
+      summary.style.display = "block";
+
+      if (choice === 1) {
+        summary.innerText = `This AI response leans passive. It waits for permission, which can feel polite — but risks putting too much pressure back on the user.`;
+      } else {
+        summary.innerText = `This response shows initiative. It reads context and suggests a step forward without overstepping. That's a more confident and human-aligned assist.`;
+      }
+    }
+  </script>
+</body>
+</html>
