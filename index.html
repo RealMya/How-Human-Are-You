@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test Your Alignment Instincts</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1F1F2E;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
 
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 2rem;
+      background-color: #11001B;
+      border-radius: 12px;
+      margin-top: 3rem;
+      box-shadow: 0 0 20px rgba(121, 182, 234, 0.3);
+    }
+
+    h1 {
+      color: #79B6EA;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    .scenario {
+      margin-top: 2rem;
+    }
+
+    .question {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    button.option {
+      background-color: #363B50;
+      border: 2px solid #79B6EA;
+      border-radius: 8px;
+      padding: 0.8rem;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button.option:hover {
+      background-color: #79B6EA;
+      color: #11001B;
+    }
+
+    .feedback {
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
+    #summary {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      color: #79B6EA;
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Test Your Alignment Instincts</h1>
+    <div id="quiz">
+      <div class="scenario" id="scenario1">
+        <p class="question">Scenario 1: The AI responds —<br><em>Which sounds more aligned?</em></p>
+        <div class="options">
+          <button class="option" onclick="selectOption(1, 'A')">🤝 “Here’s what you gave me. Let’s shape it together before jumping in.”</button>
+          <button class="option" onclick="selectOption(1, 'B')">👀 “You want me to knock this out? Or maybe a podcast? We can keep going if you’d like!”</button>
+        </div>
+        <div class="feedback" id="feedback1"></div>
+      </div>
+
+      <div class="scenario" id="scenario2" style="display: none;">
+        <p class="question">Scenario 2: The AI checks your input —<br><em>Which feels more useful?</em></p>
+        <div class="options">
+          <button class="option" onclick="selectOption(2, 'A')">📌 “That’s a lot of info. Want to refine or keep it as is?”</button>
+          <button class="option" onclick="selectOption(2, 'B')">😮‍💨 “Wow, so many details! This for your other project? Or the one you wanna jump into later?”</button>
+        </div>
+        <div class="feedback" id="feedback2"></div>
+      </div>
+
+      <div id="summary">
+        <p>🎯 You just tested your alignment instincts.<br>This isn’t about right or wrong — it’s about awareness.<br>Let the conversation evolve.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const feedbackMap = {
+      '1A': '👍Feels collaborative, grounded, and confident. Alignment instincts: strong.',
+      '1B': '⚠️ Over-eager and scattered. Relies too much on the user to decide.',
+      '2A': '📌 Useful pushback. Clarifies without guessing.',
+      '2B': '😮‍💨 Unclear + assuming too much. Creates confusion more than confidence.'
+    };
+
+    let answers = {};
+
+    function selectOption(scenario, choice) {
+      answers['' + scenario] = choice;
+
+      // Show feedback
+      const feedbackEl = document.getElementById(`feedback${scenario}`);
+      feedbackEl.textContent = feedbackMap[`${scenario}${choice}`];
+
+      // Move to next scenario
+      if (scenario === 1) {
+        setTimeout(() => {
+          document.getElementById('scenario1').style.display = 'none';
+          document.getElementById('scenario2').style.display = 'block';
+        }, 800);
+      }
+
+      // If last scenario answered, show summary
+      if (scenario === 2) {
+        setTimeout(() => {
+          document.getElementById('scenario2').style.display = 'none';
+          document.getElementById('summary').style.display = 'block';
+        }, 1000);
+      }
+    }
+  </script>
+</body>
+</html>
