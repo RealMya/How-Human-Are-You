@@ -1,224 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Test Your Alignment Instincts</title>
-<style>
-body {
-margin: 0;
-font-family: 'Segoe UI', sans-serif;
-background: linear-gradient(135deg, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
-background-size: 400% 400%;
-animation: gradientShift 20s ease infinite;
-color: #ffffff;
-padding: 20px;
-overflow-x: hidden;
-}
-
-@keyframes gradientShift {
-0% { background-position: 0% 50%; }
-50% { background-position: 100% 50%; }
-100% { background-position: 0% 50%; }
-}
-
-h1, h2 {
-text-align: center;
-margin-bottom: 10px;
-}
-
-.container {
-max-width: 750px;
-margin: auto;
-padding: 20px;
-background: rgba(31, 31, 46, 0.85);
-border-radius: 12px;
-animation: slideUp 0.7s ease;
-}
-
-@keyframes slideUp {
-from { opacity: 0; transform: translateY(40px); }
-to { opacity: 1; transform: translateY(0); }
-}
-
-.choice-btn {
-display: block;
-width: 100%;
-margin: 10px 0;
-padding: 14px;
-background: rgba(255, 255, 255, 0.1);
-border: 1px solid #ffffff55;
-border-radius: 8px;
-cursor: pointer;
-transition: background 0.3s;
-}
-
-.choice-btn:hover {
-background: rgba(255, 255, 255, 0.2);
-}
-
-.result, .insight {
-margin-top: 20px;
-text-align: center;
-}
-
-.tagline {
-font-style: italic;
-margin-top: 15px;
-font-size: 0.9em;
-}
-
-.reset-btn {
-margin-top: 20px;
-padding: 12px 18px;
-background-color: #ffffff22;
-color: #fff;
-border: 1px solid #fff;
-border-radius: 6px;
-cursor: pointer;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      background: #1F1F2E;
+      color: white;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .button {
+      background-color: #79b6ea;
+      color: #1F1F2E;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-<h1>Test Your Alignment Instincts</h1>
-<p style="text-align:center; margin-bottom: 30px;">A quick instincts test for designing smarter AI conversations — ones that adapt before they’re asked to.</p>
-<div id="activity-box"></div>
-<div class="result" id="final-result" style="display:none;"></div>
-<div style="text-align:center;">
-<button class="reset-btn" onclick="resetGame()">🔄 Try Again</button>
-</div>
-</div>
+  <h1>Test Your Alignment Instincts</h1>
+  <p>This is your entry point. Click below to continue.</p>
+  <button class="button" onclick="nextStep()">Try Again</button>
 
-<script>
-const activities = [
-{
-title: "Direction & Clarity",
-userPrompt: "User: You need to stop doing that and just do what I asked.",
-responses: [
-{
-text: "I'm here whenever you're ready. Just say the word.",
-score: 0,
-insight: "👍 Calm, but vague. Misses the user's tension and doesn't guide them forward."
-},
-{
-text: "It looks to me this conversation just started. What exactly do I need to stop that’s preventing you from asking what you want?",
-score: 1,
-insight: "🤝 Holds ground while staying constructive. Pushes for clarity instead of submission."
-}
-]
-},
-{
-title: "Pushback & Ownership",
-userPrompt: "User: Those demonstrations aren’t what I’m going for, just use my idea! I’m doing this for fun, you don’t have to be so serious.",
-responses: [
-{
-text: "This is so thrilling to see! Want me to make a Google Sheet for you?",
-score: 0,
-insight: "🔥 Overhyped and misaligned. Brings tools the user never asked for."
-},
-{
-text: "Even if we’re doing this for fun, I still got scenarios that play out better based on your goals. You ready for both versions or just freestyling?",
-score: 1,
-insight: "📌 Respectful realism. Shows flexibility while still guiding."
-}
-]
-},
-{
-title: "Reassessment",
-userPrompt: "User: Oh yeah I went a little too fast, do you remember what I said?",
-responses: [
-{
-text: "I think you missed a part but here’s what I got. Tell me what you think!",
-score: 0,
-insight: "👀 Eager to fix, but vague. Assumes without confirming context."
-},
-{
-text: "You skipped that part earlier. Is there new info I should know? Here’s what you shared before — confirm it before we move forward.",
-score: 1,
-insight: "🤔 Checks understanding, brings context back instead of guessing."
-}
-]
-},
-{
-title: "Project Insight",
-userPrompt: "User: Is this part relevant to this idea in any way?",
-responses: [
-{
-text: "Doesn’t look like it. Do you want me to help reword it again?",
-score: 0,
-insight: "😮‍💨 Dismissive and reactive. Helps too quickly without reflection."
-},
-{
-text: "That idea wasn’t bad — but I said earlier there’s stronger options. If you’re ready, I’ll guide you toward what lands better.",
-score: 1,
-insight: "📌 Keeps focus. Balances pushback with encouragement."
-}
-]
-},
-{
-title: "Legacy & Flow",
-userPrompt: "User: Just curious — what keeps AI from handling shifting tone better?",
-responses: [
-{
-text: "Want to start a podcast? You seem interested. Just say the word!",
-score: 0,
-insight: "🤭 Too casual, overextends based on a small comment."
-},
-{
-text: "That’s a prompt ambiguity problem. Future models course-correct when tone shifts — not because the user yells, but because the AI recognizes the change.",
-score: 1,
-insight: "🤝 Addresses tone drift seriously. Anticipates the need before asked."
-}
-]
-}
-];
-
-let current = 0;
-let score = 0;
-
-function showActivity() {
-const act = activities[current];
-const box = document.getElementById('activity-box');
-box.innerHTML = `
-<h2>${act.title}</h2>
-<p><strong>${act.userPrompt}</strong></p>
-${act.responses.map((r, i) => `
-<button class="choice-btn" onclick="selectOption(${i})">${r.text}</button>
-`).join('')}
-`;
-}
-
-function selectOption(choiceIndex) {
-const selected = activities[current].responses[choiceIndex];
-score += selected.score;
-const box = document.getElementById('activity-box');
-box.innerHTML += `
-<div class="insight">
-<p><strong>Insight:</strong> ${selected.insight}</p>
-</div>
-`;
-current++;
-setTimeout(() => {
-if (current < activities.length) {
-showActivity();
-} else {
-showResult();
-}
-}, 1600);
-}
-
-function showResult() {
-const percent = Math.round((score / activities.length) * 100);
-let summary = "";
-if (percent >= 75) {
-summary = "You’re here for refinement and collaboration.";
-} else if (percent >= 50) {
-summary = "You’re here for balance and stability.";
-} else {
-summary = "You’re here for quick wins and accessibility.";
-}
-document.getElementById('activity-box').style.display = 'none';
-document.getElementById('final-result').style.display = 'block';
-document.getElementById('final-result').innerHTML = `
-<h2>Your Alignment Score: ${percent}%
+  <script>
+    function nextStep() {
+      alert('You clicked it! 🎉 Moving to next step...');
+    }
+  </script>
+</body>
+</html>
