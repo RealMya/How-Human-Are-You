@@ -1,183 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Test Your Alignment Instincts</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
-      color: #ffffff;
-      overflow-x: hidden;
-    }
-    header {
-      background-color: #1F1F2E;
-      padding: 2rem;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-      color: #79b6ea;
-    }
-    header p {
-      margin-top: 0.5rem;
-      color: #A6A6A6;
-    }
-    .activity {
-      padding: 2rem;
-      animation: slideUp 0.8s ease-out;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .options {
-      margin-top: 1rem;
-    }
-    .option-btn {
-      background: #3E355E;
-      border: none;
-      color: white;
-      padding: 0.75rem 1.5rem;
-      margin: 0.5rem;
-      cursor: pointer;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: background 0.3s;
-    }
-    .option-btn:hover {
-      background: #6AC2FF;
-    }
-    .summary {
-      background: #1F1F2E;
-      padding: 2rem;
-      text-align: center;
-      margin-top: 2rem;
-      border-radius: 8px;
-      display: none;
-    }
-    .pros-cons {
-      margin-top: 1rem;
-      color: #A6A6A6;
-      font-style: italic;
-      font-size: 0.95rem;
-    }
-    .score {
-      font-size: 2rem;
-      color: #79b6ea;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Test Your Alignment Instincts</title>
+<style>
+  body {
+    background: linear-gradient(135deg, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
+    background-size: 600% 600%;
+    animation: gradientShift 20s ease infinite;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 2rem;
+    display: flex;
+    justify-content: center;
+  }
+  @keyframes gradientShift {
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+  }
+  .container {
+    max-width: 600px;
+    background: #1F1F2E;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #79b6ea55;
+  }
+  h1 {
+    color: #79b6ea;
+    margin-bottom: 0.2rem;
+    font-weight: 700;
+  }
+  p.tagline {
+    color: #79b6ea;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+  .activity {
+    background: #3E355E;
+    margin-bottom: 2rem;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+    display: none;
+  }
+  .activity.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .question {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+  .emoji-options {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  button.emoji-btn {
+    font-size: 2rem;
+    background: transparent;
+    border: 2px solid #79b6ea;
+    border-radius: 8px;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    color: #79b6ea;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  button.emoji-btn:hover {
+    background: #79b6ea;
+    color: #1F1F2E;
+  }
+  button.emoji-btn.selected {
+    background: #79b6ea;
+    color: #1F1F2E;
+  }
+  .insight {
+    font-size: 0.9rem;
+    background: #2a234b;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-style: italic;
+    margin-top: 0.5rem;
+  }
+  .summary {
+    background: #3E355E;
+    padding: 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+  .score {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #79b6ea;
+  }
+</style>
 </head>
 <body>
-  <header>
+  <div class="container">
     <h1>Test Your Alignment Instincts</h1>
-    <p>A quick instincts test for designing smarter AI conversations — ones that adapt before they're asked to.</p>
-  </header>
+    <p class="tagline">A quick instincts test for designing smarter AI conversations ones that adapt before they’re asked to.</p>
+    
+    <!-- Activities will be generated here -->
+    
+    <div id="activities"></div>
+    
+    <div id="finalSummary" class="summary" style="display:none;"></div>
+  </div>
 
-  <div id="quiz"></div>
-  <div class="summary" id="result"></div>
-
-  <script>
-    const activities = [
-      {
-        prompt: "AI: “No need to hesitate. Based on your last message, here's a clear next step I can take — unless you say otherwise.”",
-        options: [
-          { label: "👍", score: 25, summary: "You value initiative and clarity in the conversation." },
-          { label: "👀", score: 10, summary: "You’re interested, but you're observing before engaging." }
-        ],
-        prosCons: "👍 = Asserts confidently but may assume too much. 👀 = Curiosity-driven but lacks direct action."
-      },
-      {
-        prompt: "AI: “There’s a better way to look at this idea. It’s not wrong, just misdirected. Check this out...”",
-        options: [
-          { label: "🤝", score: 25, summary: "You welcome collaboration and guidance." },
-          { label: "😮‍💨", score: 10, summary: "You may prefer less pushback, more affirmation." }
-        ],
-        prosCons: "🤝 = Promotes growth but risks overstepping. 😮‍💨 = Keeps mood light, but avoids critique."
-      },
-      {
-        prompt: "AI: “Looks like this conversation just started. So what exactly do I need to stop doing?”",
-        options: [
-          { label: "📌", score: 25, summary: "You favor accountability and conversational structure." },
-          { label: "🤭", score: 10, summary: "You prefer lightness, even when challenged." }
-        ],
-        prosCons: "📌 = Keeps focus, but might feel strict. 🤭 = Disarms tension, but can miss the point."
-      },
-      {
-        prompt: "AI: “Summarizing this will smooth the process. Drop your revision and I’ll map the bigger picture.”",
-        options: [
-          { label: "🤔", score: 25, summary: "You embrace deeper assessment and reflection." },
-          { label: "🔥", score: 10, summary: "You like momentum, even if it's vague." }
-        ],
-        prosCons: "🤔 = Sharp and slow-burning. 🔥 = Fast-paced but potentially surface-level."
-      },
-      {
-        prompt: "AI: “Even if this is for fun, I’ve seen better directions. You ready for real scenarios or freestyle only?”",
-        options: [
-          { label: "🤝", score: 25, summary: "You're up for playful honesty and guidance." },
-          { label: "👀", score: 10, summary: "You want to keep things light and optional." }
-        ],
-        prosCons: "🤝 = High trust, high demand. 👀 = Accessible tone, less commitment."
-      }
-    ];
-
-    let current = 0;
-    let score = 0;
-
-    function loadActivity() {
-      if (current >= activities.length) {
-        const percent = Math.round((score / (activities.length * 25)) * 100);
-        let reflection = percent >= 70
-          ? "You’re here for refinement and collaboration."
-          : percent >= 40
-          ? "You’re here for accessibility and clarity."
-          : "You’re here for balance and stability.";
-
-        document.getElementById('quiz').style.display = 'none';
-        document.getElementById('result').style.display = 'block';
-        document.getElementById('result').innerHTML = `
-          <div class="score">Your alignment score: ${percent}%</div>
-          <p>${reflection}</p>
-          <p>You just tested your instincts. This isn’t about right or wrong — it’s about awareness. Let the conversation evolve.</p>
-        `;
-        return;
-      }
-
-      const activity = activities[current];
-      let html = `
-        <div class="activity">
-          <h2>Activity ${current + 1}</h2>
-          <p>${activity.prompt}</p>
-          <div class="options">`;
-
-      activity.options.forEach((opt, index) => {
-        html += `<button class="option-btn" onclick="chooseOption(${index})">${opt.label}</button>`;
-      });
-
-      html += `</div>
-        <div class="pros-cons">${activity.prosCons}</div>
-        </div>`;
-      document.getElementById('quiz').innerHTML = html;
+<script>
+  // Data for activities - questions, emoji options, pro/cons insight
+  const activities = [
+    {
+      title: "1. User demands/overstimulated",
+      question: "I know you’re frustrated with the news, is there anything else I can help you with?",
+      emojis: [
+        {emoji: "🤯", label:"Overwhelmed", pro: "Recognizing overwhelm helps refocus.", con: "But too much info may cause shutdown."},
+        {emoji: "🛑", label:"Stop & Listen", pro: "Setting boundaries shows control.", con: "May risk missing useful details."},
+        {emoji: "👍", label:"Got It", pro: "Affirmations build trust.", con: "Can seem dismissive if rushed."}
+      ]
+    },
+    {
+      title: "2. Experimenting with AI",
+      question: "Testing how AI responds after a long break. What vibe do you want?",
+      emojis: [
+        {emoji: "🤔", label:"Curious", pro: "Openness invites creativity.", con: "Too much curiosity can scatter focus."},
+        {emoji: "🔥", label:"Passionate", pro: "Energy sparks engagement.", con: "Risk burnout if unchecked."},
+        {emoji: "👀", label:"Observant", pro: "Attention to detail improves insight.", con: "Might get stuck in analysis."}
+      ]
+    },
+    {
+      title: "3. Building ideas/systems",
+      question: "You have an idea. How should AI respond?",
+      emojis: [
+        {emoji: "🔄", label:"Suggest Improvements", pro: "Helps refine ideas effectively.", con: "May seem overly critical."},
+        {emoji: "🎉", label:"Encourage Fun", pro: "Keeps things light and playful.", con: "Might miss depth of concept."},
+        {emoji: "📊", label:"Provide Data", pro: "Offers clarity with facts.", con: "Could stifle creativity."}
+      ]
+    },
+    {
+      title: "4. Revisions and edits",
+      question: "How does AI handle repeated mistakes or edits?",
+      emojis: [
+        {emoji: "📝", label:"Summarize & Suggest", pro: "Keeps process smooth and clear.", con: "Can overlook nuances."},
+        {emoji: "🤖", label:"Own & Correct", pro: "Builds trust with honesty.", con: "May sound defensive."},
+        {emoji: "⏸️", label:"Pause & Reflect", pro: "Allows thoughtful response.", con: "Could slow momentum."}
+      ]
+    },
+    {
+      title: "5. Closing the conversation",
+      question: "How should AI close or redirect?",
+      emojis: [
+        {emoji: "🔚", label:"Pin Key Points", pro: "Helps keep focus on priorities.", con: "Might feel rigid."},
+        {emoji: "🎬", label:"Switch Gears", pro: "Adapts to user’s mood.", con: "Could seem inconsistent."},
+        {emoji: "💬", label:"Open Invite", pro: "Keeps doors open for more.", con: "May prolong conversations unnecessarily."}
+      ]
     }
+  ];
 
-    function chooseOption(index) {
-      score += activities[current].options[index].score;
-      current++;
-      loadActivity();
-    }
+  const container = document.getElementById('activities');
+  const finalSummary = document.getElementById('finalSummary');
 
-    // Load first activity
-    loadActivity();
-  </script>
-</body>
-</html>
+  let currentIndex = 0;
+  let score = 0; // For demo, +1 for each selection of first emoji (example scoring)
+  let total = activities.length;
+
+  // Create activity elements
+  activities.forEach((act, i) => {
+    const actDiv = document.createElement('div');
+    actDiv.className = 'activity';
+    actDiv.id = 'activity-' + i;
+
+    // Title
+    const titleEl = document.createElement('h3');
+    titleEl.textContent = act.title;
+    titleEl.style.color = '#79b6ea';
+    actDiv.appendChild(titleEl);
+
+    // Question
+    const qEl = document.createElement('p');
+    qEl.className = 'question';
+    qEl.textContent = act.question;
+    actDiv.appendChild(qEl);
+
+    // Emoji options container
+    const emojiContainer = document.createElement('div');
+    emojiContainer.className = 'emoji-options';
+
+    act.emojis.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'emoji-btn';
+      btn.textContent = opt.emoji;
+      btn.title = opt.label;
+      btn.setAttribute('data-activity', i);
+      btn.setAttribute('data-option', idx);
+
+      btn.onclick =
