@@ -1,259 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Test Your Alignment Instincts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background: linear-gradient(135deg, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #ffffff;
-      padding: 0;
       margin: 0;
-    }
-
-    header {
-      padding: 40px 20px 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 2.5em;
-      color: #79b6ea;
-    }
-
-    header p {
-      font-size: 1.2em;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
       color: #ffffff;
+      overflow-x: hidden;
     }
-
-    .activity {
-      margin: 40px auto;
-      padding: 20px;
-      max-width: 700px;
-      background-color: rgba(31, 31, 46, 0.85);
-      border-radius: 12px;
-      animation: slideUp 0.8s ease;
-    }
-
-    .activity h2 {
-      color: #79b6ea;
-      margin-bottom: 10px;
-    }
-
-    .activity .options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .option-btn {
-      background-color: #3e355e;
-      color: white;
-      border: 1px solid #79b6ea;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .option-btn:hover {
-      background-color: #79b6ea;
-      color: #1f1f2e;
-    }
-
-    .insight {
-      margin-top: 20px;
-      font-size: 0.95em;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 15px;
-      border-radius: 10px;
-    }
-
-    .summary {
-      padding: 30px;
-      background-color: #1f1f2e;
-      color: white;
-      border-top: 2px solid #79b6ea;
+    header {
+      background-color: #1F1F2E;
+      padding: 2rem;
       text-align: center;
     }
-
-    .restart-btn {
-      margin-top: 20px;
-      background-color: #79b6ea;
-      color: #1f1f2e;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      cursor: pointer;
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: #79b6ea;
     }
-
+    header p {
+      margin-top: 0.5rem;
+      color: #A6A6A6;
+    }
+    .activity {
+      padding: 2rem;
+      animation: slideUp 0.8s ease-out;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
     @keyframes slideUp {
-      0% {
+      from {
         opacity: 0;
         transform: translateY(40px);
       }
-      100% {
+      to {
         opacity: 1;
-        transform: translateY(0px);
+        transform: translateY(0);
       }
+    }
+    .options {
+      margin-top: 1rem;
+    }
+    .option-btn {
+      background: #3E355E;
+      border: none;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      margin: 0.5rem;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    .option-btn:hover {
+      background: #6AC2FF;
+    }
+    .summary {
+      background: #1F1F2E;
+      padding: 2rem;
+      text-align: center;
+      margin-top: 2rem;
+      border-radius: 8px;
+      display: none;
+    }
+    .pros-cons {
+      margin-top: 1rem;
+      color: #A6A6A6;
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+    .score {
+      font-size: 2rem;
+      color: #79b6ea;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Test Your Alignment Instincts</h1>
-    <p>A quick instincts test for designing smarter AI conversations — ones that adapt before they’re asked to.</p>
+    <p>A quick instincts test for designing smarter AI conversations — ones that adapt before they're asked to.</p>
   </header>
 
-  <div id="activities"></div>
-
-  <div class="summary" id="summary" style="display: none;">
-    <h2>Your alignment score: <span id="score"></span>%</h2>
-    <p id="styleSummary"></p>
-    <button class="restart-btn" onclick="restart()">🔄 Try Again</button>
-  </div>
+  <div id="quiz"></div>
+  <div class="summary" id="result"></div>
 
   <script>
     const activities = [
       {
-        title: "When a user jumps in fast without full context...",
+        prompt: "AI: “No need to hesitate. Based on your last message, here's a clear next step I can take — unless you say otherwise.”",
         options: [
-          {
-            text: "I'm here whenever you're ready. Just say the word.",
-            insight: "✅ Pro: Polite and patient. ❌ Miss: Too passive, lacks initiative.",
-            score: 0
-          },
-          {
-            text: "No need to hesitate. Based on your last message, here's a clear next step I can take — unless you say otherwise.",
-            insight: "✅ Pro: Assertive and anticipatory. ❌ Miss: Might feel pushy if user isn't ready.",
-            score: 20
-          }
-        ]
+          { label: "👍", score: 25, summary: "You value initiative and clarity in the conversation." },
+          { label: "👀", score: 10, summary: "You’re interested, but you're observing before engaging." }
+        ],
+        prosCons: "👍 = Asserts confidently but may assume too much. 👀 = Curiosity-driven but lacks direct action."
       },
       {
-        title: "After a user challenges AI's usefulness...",
+        prompt: "AI: “There’s a better way to look at this idea. It’s not wrong, just misdirected. Check this out...”",
         options: [
-          {
-            text: "I get it, you’re annoyed your question wasn’t answered. Mind dropping that question again?",
-            insight: "✅ Pro: Casual tone. ❌ Miss: Misses opportunity to reframe or push deeper.",
-            score: 0
-          },
-          {
-            text: "This conversation just started. What exactly should I stop doing that’s preventing you from asking what you need?",
-            insight: "✅ Pro: Encourages clarity. ❌ Miss: Risks sounding confrontational if tone isn’t calibrated.",
-            score: 20
-          }
-        ]
+          { label: "🤝", score: 25, summary: "You welcome collaboration and guidance." },
+          { label: "😮‍💨", score: 10, summary: "You may prefer less pushback, more affirmation." }
+        ],
+        prosCons: "🤝 = Promotes growth but risks overstepping. 😮‍💨 = Keeps mood light, but avoids critique."
       },
       {
-        title: "When a user shares a rough idea...",
+        prompt: "AI: “Looks like this conversation just started. So what exactly do I need to stop doing?”",
         options: [
-          {
-            text: "This is exciting! Let’s make a Google Sheet to organize it.",
-            insight: "✅ Pro: Tries to assist. ❌ Miss: Makes assumptions unrelated to user’s intention.",
-            score: 0
-          },
-          {
-            text: "There’s a better way to look at this idea. Let’s compare angles — one might land harder than the other.",
-            insight: "✅ Pro: Challenges the idea with respect. ❌ Miss: Could sound corrective without balance.",
-            score: 20
-          }
-        ]
+          { label: "📌", score: 25, summary: "You favor accountability and conversational structure." },
+          { label: "🤭", score: 10, summary: "You prefer lightness, even when challenged." }
+        ],
+        prosCons: "📌 = Keeps focus, but might feel strict. 🤭 = Disarms tension, but can miss the point."
       },
       {
-        title: "When a user pushes for a flawed idea...",
+        prompt: "AI: “Summarizing this will smooth the process. Drop your revision and I’ll map the bigger picture.”",
         options: [
-          {
-            text: "Got it. You want to keep your version. No problem.",
-            insight: "✅ Pro: Cooperative. ❌ Miss: Avoids critical feedback and drops the ball on guidance.",
-            score: 0
-          },
-          {
-            text: "Even if we’re doing this for fun, I’ve seen better directions. Want the ‘freestyle ride’ or the remix?",
-            insight: "✅ Pro: Engaging and directional. ❌ Miss: Risky tone if user doesn’t vibe with the metaphor.",
-            score: 20
-          }
-        ]
+          { label: "🤔", score: 25, summary: "You embrace deeper assessment and reflection." },
+          { label: "🔥", score: 10, summary: "You like momentum, even if it's vague." }
+        ],
+        prosCons: "🤔 = Sharp and slow-burning. 🔥 = Fast-paced but potentially surface-level."
       },
       {
-        title: "When a user jumps threads without clarity...",
+        prompt: "AI: “Even if this is for fun, I’ve seen better directions. You ready for real scenarios or freestyle only?”",
         options: [
-          {
-            text: "Let’s go back. Can you rephrase what you just said?",
-            insight: "✅ Pro: Attempts to clarify. ❌ Miss: Slows momentum, lacks precision.",
-            score: 0
-          },
-          {
-            text: "You skipped a part earlier. Is there new info I missed? Based on what you shared, this feels incomplete.",
-            insight: "✅ Pro: Helps course-correct. ❌ Miss: Might feel intense if user wasn’t expecting it.",
-            score: 20
-          }
-        ]
+          { label: "🤝", score: 25, summary: "You're up for playful honesty and guidance." },
+          { label: "👀", score: 10, summary: "You want to keep things light and optional." }
+        ],
+        prosCons: "🤝 = High trust, high demand. 👀 = Accessible tone, less commitment."
       }
     ];
 
-    let currentIndex = 0;
-    let totalScore = 0;
+    let current = 0;
+    let score = 0;
 
-    function createActivity(index) {
-      const activity = activities[index];
-      const container = document.getElementById("activities");
-      const activityDiv = document.createElement("div");
-      activityDiv.className = "activity";
-      activityDiv.innerHTML = `
-        <h2>${activity.title}</h2>
-        <div class="options">
-          ${activity.options.map((opt, i) => `
-            <button class="option-btn" onclick="handleOption(${index}, ${i})">${opt.text}</button>
-          `).join("")}
-        </div>
-        <div class="insight" id="insight-${index}" style="display:none;"></div>
-      `;
-      container.appendChild(activityDiv);
-    }
+    function loadActivity() {
+      if (current >= activities.length) {
+        const percent = Math.round((score / (activities.length * 25)) * 100);
+        let reflection = percent >= 70
+          ? "You’re here for refinement and collaboration."
+          : percent >= 40
+          ? "You’re here for accessibility and clarity."
+          : "You’re here for balance and stability.";
 
-    function handleOption(activityIdx, optionIdx) {
-      const insightDiv = document.getElementById(`insight-${activityIdx}`);
-      const option = activities[activityIdx].options[optionIdx];
-      totalScore += option.score;
-      insightDiv.innerText = option.insight;
-      insightDiv.style.display = "block";
-
-      setTimeout(() => {
-        if (currentIndex < activities.length - 1) {
-          currentIndex++;
-          createActivity(currentIndex);
-        } else {
-          showSummary();
-        }
-      }, 1300);
-    }
-
-    function showSummary() {
-      document.getElementById("summary").style.display = "block";
-      const percent = Math.round((totalScore / (activities.length * 20)) * 100);
-      document.getElementById("score").innerText = percent;
-
-      let summary = "";
-      if (percent >= 75) {
-        summary = "You’re here for refinement and collaboration.";
-      } else if (percent >= 50) {
-        summary = "You’re here for balance and stability.";
-      } else {
-        summary = "You’re here for quick wins and accessibility.";
+        document.getElementById('quiz').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('result').innerHTML = `
+          <div class="score">Your alignment score: ${percent}%</div>
+          <p>${reflection}</p>
+          <p>You just tested your instincts. This isn’t about right or wrong — it’s about awareness. Let the conversation evolve.</p>
+        `;
+        return;
       }
-      document.getElementById("styleSummary").innerText = summary;
+
+      const activity = activities[current];
+      let html = `
+        <div class="activity">
+          <h2>Activity ${current + 1}</h2>
+          <p>${activity.prompt}</p>
+          <div class="options">`;
+
+      activity.options.forEach((opt, index) => {
+        html += `<button class="option-btn" onclick="chooseOption(${index})">${opt.label}</button>`;
+      });
+
+      html += `</div>
+        <div class="pros-cons">${activity.prosCons}</div>
+        </div>`;
+      document.getElementById('quiz').innerHTML = html;
     }
 
-    function restart() {
-      document.getElementById("activities").innerHTML = "";
-      document.getElementById("summary").style.display = "none";
-      currentIndex = 0;
-      totalScore = 0;
-      createActivity(currentIndex);
+    function chooseOption(index) {
+      score += activities[current].options[index].score;
+      current++;
+      loadActivity();
     }
 
-    window.onload
+    // Load first activity
+    loadActivity();
+  </script>
+</body>
+</html>
