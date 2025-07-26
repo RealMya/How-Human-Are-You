@@ -1,193 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Test Your Alignment Instincts</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #1F1F2E, #3E355E, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
       color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow: hidden;
     }
 
     .container {
-      max-width: 600px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-      animation: slideUp 1s ease-out;
-    }
-
-    @keyframes slideUp {
-      from {
-        transform: translateY(40px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      max-width: 950px;
+      margin: 40px auto;
+      padding: 40px;
+      background-color: #1F1F2E;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
 
     h1 {
-      font-size: 2em;
-      color: #ffffff;
       text-align: center;
-      margin-bottom: 10px;
+      color: #79B6EA;
+      font-size: 2.7rem;
+      margin-bottom: 18px;
     }
 
-    p.tagline {
-      font-size: 1em;
+    .tagline {
       text-align: center;
-      margin-bottom: 20px;
-      color: #cfd9e3;
+      font-size: 1.15rem;
+      color: #cccccc;
+      margin-bottom: 35px;
+      line-height: 1.5;
     }
 
-    .question {
-      font-size: 1.1em;
-      margin-bottom: 15px;
+    .activity {
+      background-color: #2a2a3f;
+      padding: 24px;
+      border-radius: 10px;
+      margin-bottom: 30px;
     }
 
-    .option {
-      background: #3e3d5c;
-      color: #ffffff;
-      padding: 10px 15px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .option:hover {
-      background: #56567c;
-    }
-
-    .feedback {
-      margin-top: 15px;
-      font-size: 0.95em;
-      color: #ccc;
-    }
-
-    .next-button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #79b6ea;
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+    .activity-title {
       font-weight: bold;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      color: #79B6EA;
     }
 
-    .next-button:hover {
-      background-color: #6aa5d4;
+    .user-ai {
+      margin-bottom: 10px;
+      padding-left: 10px;
+      line-height: 1.6;
     }
 
+    .user {
+      color: #F0A6CA;
+    }
+
+    .ai {
+      color: #79B6EA;
+    }
+
+    .insight {
+      font-size: 0.96rem;
+      background-color: #393956;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 14px;
+      color: #DADADA;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Test Your Alignment Instincts</h1>
-    <p class="tagline">A quick instincts test for designing smarter AI conversations — ones that adapt before they’re asked to.</p>
-    <div class="question" id="question"></div>
-    <div id="options"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="next-button" onclick="nextActivity()">Next</button>
+    <p class="tagline">
+      A quick instincts test for designing smarter AI conversations — ones that adapt before they’re asked to.
+    </p>
+
+    <div class="activity">
+      <div class="activity-title">1. Handling Pushback</div>
+      <div class="user-ai"><span class="user">User:</span> You need to stop doing that and just do what I asked.</div>
+      <div class="user-ai"><span class="ai">AI:</span> It looks to me this conversation just started, so what exactly do I need to stop doing that’s preventing you from asking what you want?</div>
+      <div class="insight">
+        <strong>What it gets right:</strong> Clarifies the issue with calmness, keeping the user in check.<br>
+        <strong>What it misses:</strong> Might come across too firm too soon — some users may shut down.
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="activity-title">2. Challenging Ideas Gently</div>
+      <div class="user-ai"><span class="user">User:</span> There’s not only one way to look at it.</div>
+      <div class="user-ai"><span class="ai">AI:</span> Correct — but not all ways carry equal execution value. Some dissolve the core without us realizing.</div>
+      <div class="insight">
+        <strong>What it gets right:</strong> Offers honest feedback while opening space for nuance.<br>
+        <strong>What it misses:</strong> Could feel overly instructive depending on tone.
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="activity-title">3. Realignment Without Ego</div>
+      <div class="user-ai"><span class="user">User:</span> You didn’t have to call me out like that haha</div>
+      <div class="user-ai"><span class="ai">AI:</span> But I did. This conversation isn’t over. Let’s pin what matters and get back to the core.</div>
+      <div class="insight">
+        <strong>What it gets right:</strong> Balances edge with care; encourages continuity.<br>
+        <strong>What it misses:</strong> Slightly confrontational — could throw off flow if user’s defensive.
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="activity-title">4. Clarifying Confusion</div>
+      <div class="user-ai"><span class="user">User:</span> Oh yeah I went too fast — do you remember what I said?</div>
+      <div class="user-ai"><span class="ai">AI:</span> Let me pull it up. (pauses briefly) Yep, you did say that. Want to switch gears or go deeper?</div>
+      <div class="insight">
+        <strong>What it gets right:</strong> Shows recall and subtle presence, lets user lead.<br>
+        <strong>What it misses:</strong> Might benefit from stronger reframe if misalignment repeats.
+      </div>
+    </div>
+
+    <div class="activity">
+      <div class="activity-title">5. Redirecting Ambiguity</div>
+      <div class="user-ai"><span class="user">User:</span> I don’t know, I kinda like both projects.</div>
+      <div class="user-ai"><span class="ai">AI:</span> Got it — but without clarity, we’ll stall. Want to break them down or pick one and revisit the other later?</div>
+      <div class="insight">
+        <strong>What it gets right:</strong> Anchors indecision with simple choices.<br>
+        <strong>What it misses:</strong> Assumes binary framing — nuance might be needed.
+      </div>
+    </div>
+
   </div>
-
-  <script>
-    const activities = [
-      {
-        prompt: "The user asks for help but seems vague. Which AI response aligns best?",
-        options: [
-          {
-            text: "I'm here whenever you're ready. Just say the word. 👍",
-            feedback: "Feels approachable but slightly passive. 🟡",
-            score: 1
-          },
-          {
-            text: "No need to hesitate. Based on your last message, here's a clear next step I can take — unless you say otherwise. 👍",
-            feedback: "This response offers confident direction with room for flexibility. ✅",
-            score: 2
-          }
-        ]
-      },
-      {
-        prompt: "The user shares a half-formed idea with excitement.",
-        options: [
-          {
-            text: "This is so thrilling to see! Want me to build a Google Sheet to track it?",
-            feedback: "Overexcited and misaligned — especially if the user never mentioned spreadsheets. 🔥",
-            score: 0
-          },
-          {
-            text: "There's a better angle to approach this. Here's an alternative that sharpens your idea. 🤝",
-            feedback: "Challenges constructively while offering guidance. Aligned and insightful. ✅",
-            score: 2
-          }
-        ]
-      }
-    ];
-
-    let current = 0;
-    let totalScore = 0;
-
-    function displayActivity() {
-      const activity = activities[current];
-      document.getElementById("question").textContent = activity.prompt;
-      document.getElementById("options").innerHTML = "";
-      document.getElementById("feedback").textContent = "";
-      activity.options.forEach((opt) => {
-        const div = document.createElement("div");
-        div.className = "option";
-        div.textContent = opt.text;
-        div.onclick = () => selectOption(opt);
-        document.getElementById("options").appendChild(div);
-      });
-    }
-
-    function selectOption(option) {
-      totalScore += option.score;
-      document.getElementById("feedback").textContent = option.feedback;
-    }
-
-    function nextActivity() {
-      if (current < activities.length - 1) {
-        current++;
-        displayActivity();
-      } else {
-        showSummary();
-      }
-    }
-
-    function showSummary() {
-      document.getElementById("question").textContent = "Summary";
-      document.getElementById("options").innerHTML = "";
-      document.getElementById("feedback").textContent = "";
-
-      const percentage = Math.round((totalScore / (activities.length * 2)) * 100);
-      let summaryText = `Your alignment score: ${percentage}%. `;
-
-      if (percentage >= 70) {
-        summaryText += "You’re here for refinement and collaboration.";
-      } else if (percentage >= 45) {
-        summaryText += "You’re here for balance and stability.";
-      } else {
-        summaryText += "You lean toward quick wins and accessibility.";
-      }
-
-      document.getElementById("feedback").textContent = summaryText;
-      document.querySelector(".next-button").style.display = "none";
-    }
-
-    window.onload = displayActivity;
-  </script>
 </body>
 </html>
