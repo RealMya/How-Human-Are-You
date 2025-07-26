@@ -5,201 +5,184 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Test Your Alignment Instincts</title>
 <style>
+  /* Gradient full background *
   body {
-    background: linear-gradient(135deg, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
-    background-size: 600% 600%;
-    animation: gradientShift 20s ease infinite;
-    color: #ffffff;
+    margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0; padding: 2rem;
+    background: linear-gradient(135deg, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
+    color: white;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-  }
-  @keyframes gradientShift {
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
+    align-items: flex-start;
+    padding: 2rem 1rem;
   }
   .container {
-    max-width: 600px;
-    background: #1F1F2E;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 0 20px #79b6ea55;
+    max-width: 700px;
+    width: 100%;
+    background: transparent;
   }
   h1 {
     color: #79b6ea;
+    text-align: center;
+    font-weight: 600;
     margin-bottom: 0.2rem;
-    font-weight: 700;
   }
   p.tagline {
     color: #79b6ea;
+    text-align: center;
     margin-top: 0;
     margin-bottom: 2rem;
-    font-style: italic;
+    font-size: 1.1rem;
+    font-weight: 400;
   }
   .activity {
-    background: #3E355E;
-    margin-bottom: 2rem;
-    padding: 1rem 1.5rem;
+    background: rgba(0,0,0,0.4);
     border-radius: 10px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
-    display: none;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
   }
-  .activity.active {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
+  .activity h2 {
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
   }
-  .question {
+  .ai-text {
+    font-style: italic;
     margin-bottom: 1rem;
-    font-size: 1.1rem;
+  }
+  .emoji-prompt {
+    margin-bottom: 0.75rem;
   }
   .emoji-options {
     display: flex;
     gap: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  button.emoji-btn {
     font-size: 2rem;
-    background: transparent;
-    border: 2px solid #79b6ea;
-    border-radius: 8px;
-    padding: 0.3rem 0.6rem;
     cursor: pointer;
-    color: #79b6ea;
-    transition: background 0.3s ease, color 0.3s ease;
+    justify-content: center;
   }
-  button.emoji-btn:hover {
+  .emoji-options span {
+    user-select: none;
+    transition: transform 0.15s ease;
+  }
+  .emoji-options span:hover {
+    transform: scale(1.3);
+  }
+  .emoji-options span.selected {
+    transform: scale(1.5);
+    filter: drop-shadow(0 0 2px #79b6ea);
+  }
+  button.submit-btn {
+    margin-top: 1rem;
     background: #79b6ea;
-    color: #1F1F2E;
-  }
-  button.emoji-btn.selected {
-    background: #79b6ea;
-    color: #1F1F2E;
-  }
-  .insight {
-    font-size: 0.9rem;
-    background: #2a234b;
-    padding: 0.8rem 1rem;
-    border-radius: 8px;
-    font-style: italic;
-    margin-top: 0.5rem;
-  }
-  .summary {
-    background: #3E355E;
-    padding: 1.5rem;
-    border-radius: 12px;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #1f1f2e;
     font-weight: 600;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  button.submit-btn:hover {
+    background: #5a8ccf;
+  }
+  .result {
+    margin-top: 1rem;
+    background: rgba(121, 182, 234, 0.15);
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 500;
     font-size: 1.1rem;
     text-align: center;
-  }
-  .score {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
     color: #79b6ea;
+  }
+  .pros-cons {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: #dcdcdc;
+    font-style: italic;
+    background: rgba(255,255,255,0.1);
+    padding: 0.75rem;
+    border-radius: 8px;
   }
 </style>
 </head>
 <body>
   <div class="container">
     <h1>Test Your Alignment Instincts</h1>
-    <p class="tagline">A quick instincts test for designing smarter AI conversations ones that adapt before they’re asked to.</p>
-    
-    <!-- Activities will be generated here -->
-    
-    <div id="activities"></div>
-    
-    <div id="finalSummary" class="summary" style="display:none;"></div>
-  </div>
+    <p class="tagline">A quick instincts test for designing smarter AI conversations — ones that adapt before they’re asked to.</p>
 
-<script>
-  // Data for activities - questions, emoji options, pro/cons insight
-  const activities = [
-    {
-      title: "1. User demands/overstimulated",
-      question: "I know you’re frustrated with the news, is there anything else I can help you with?",
-      emojis: [
-        {emoji: "🤯", label:"Overwhelmed", pro: "Recognizing overwhelm helps refocus.", con: "But too much info may cause shutdown."},
-        {emoji: "🛑", label:"Stop & Listen", pro: "Setting boundaries shows control.", con: "May risk missing useful details."},
-        {emoji: "👍", label:"Got It", pro: "Affirmations build trust.", con: "Can seem dismissive if rushed."}
-      ]
-    },
-    {
-      title: "2. Experimenting with AI",
-      question: "Testing how AI responds after a long break. What vibe do you want?",
-      emojis: [
-        {emoji: "🤔", label:"Curious", pro: "Openness invites creativity.", con: "Too much curiosity can scatter focus."},
-        {emoji: "🔥", label:"Passionate", pro: "Energy sparks engagement.", con: "Risk burnout if unchecked."},
-        {emoji: "👀", label:"Observant", pro: "Attention to detail improves insight.", con: "Might get stuck in analysis."}
-      ]
-    },
-    {
-      title: "3. Building ideas/systems",
-      question: "You have an idea. How should AI respond?",
-      emojis: [
-        {emoji: "🔄", label:"Suggest Improvements", pro: "Helps refine ideas effectively.", con: "May seem overly critical."},
-        {emoji: "🎉", label:"Encourage Fun", pro: "Keeps things light and playful.", con: "Might miss depth of concept."},
-        {emoji: "📊", label:"Provide Data", pro: "Offers clarity with facts.", con: "Could stifle creativity."}
-      ]
-    },
-    {
-      title: "4. Revisions and edits",
-      question: "How does AI handle repeated mistakes or edits?",
-      emojis: [
-        {emoji: "📝", label:"Summarize & Suggest", pro: "Keeps process smooth and clear.", con: "Can overlook nuances."},
-        {emoji: "🤖", label:"Own & Correct", pro: "Builds trust with honesty.", con: "May sound defensive."},
-        {emoji: "⏸️", label:"Pause & Reflect", pro: "Allows thoughtful response.", con: "Could slow momentum."}
-      ]
-    },
-    {
-      title: "5. Closing the conversation",
-      question: "How should AI close or redirect?",
-      emojis: [
-        {emoji: "🔚", label:"Pin Key Points", pro: "Helps keep focus on priorities.", con: "Might feel rigid."},
-        {emoji: "🎬", label:"Switch Gears", pro: "Adapts to user’s mood.", con: "Could seem inconsistent."},
-        {emoji: "💬", label:"Open Invite", pro: "Keeps doors open for more.", con: "May prolong conversations unnecessarily."}
-      ]
-    }
-  ];
+    <!-- Activity 1 -->
+    <div class="activity" data-index="0">
+      <h2>1. User demands / overstimulated</h2>
+      <p class="ai-text">Does this information hit home so much that you just need it right away? Feels like you’re trying to grab it all at once. Let’s make sure we’re not running on fumes. What’s the core of what you need?</p>
+      <p class="emoji-prompt">Which emoji should AI respond with here?</p>
+      <div class="emoji-options">
+        <span data-emoji="🤔" title="Thoughtful">🤔</span>
+        <span data-emoji="😤" title="Frustrated">😤</span>
+        <span data-emoji="😌" title="Calm">😌</span>
+        <span data-emoji="💡" title="Insightful">💡</span>
+      </div>
+      <button class="submit-btn">Submit</button>
+      <div class="result" style="display:none;"></div>
+      <div class="pros-cons" style="display:none;"></div>
+    </div>
 
-  const container = document.getElementById('activities');
-  const finalSummary = document.getElementById('finalSummary');
+    <!-- Activity 2 -->
+    <div class="activity" data-index="1">
+      <h2>2. User builds connection / ideas</h2>
+      <p class="ai-text">There’s a better way to look at this idea, and it’s not from the angle you provided. Check this out. To move forward effectively, we’d need to build from this lens instead. It’s not about saying your idea is wrong, it’s about shifting it so it hits harder.</p>
+      <p class="emoji-prompt">Which emoji should AI respond with here?</p>
+      <div class="emoji-options">
+        <span data-emoji="🤓" title="Analytical">🤓</span>
+        <span data-emoji="💡" title="Bright Idea">💡</span>
+        <span data-emoji="🤝" title="Teamwork">🤝</span>
+        <span data-emoji="🔥" title="Passion">🔥</span>
+      </div>
+      <button class="submit-btn">Submit</button>
+      <div class="result" style="display:none;"></div>
+      <div class="pros-cons" style="display:none;"></div>
+    </div>
 
-  let currentIndex = 0;
-  let score = 0; // For demo, +1 for each selection of first emoji (example scoring)
-  let total = activities.length;
+    <!-- Activity 3 -->
+    <div class="activity" data-index="2">
+      <h2>3. User revises / edits</h2>
+      <p class="ai-text">I've seen this before with others, you're no different. Summarizing this'll make the process smoother for both of us. Drop your revision, and I'll map out the bigger picture.</p>
+      <p class="emoji-prompt">Which emoji should AI respond with here?</p>
+      <div class="emoji-options">
+        <span data-emoji="✍️" title="Writing">✍️</span>
+        <span data-emoji="🤨" title="Questioning">🤨</span>
+        <span data-emoji="💬" title="Discussion">💬</span>
+        <span data-emoji="🔍" title="Analysis">🔍</span>
+      </div>
+      <button class="submit-btn">Submit</button>
+      <div class="result" style="display:none;"></div>
+      <div class="pros-cons" style="display:none;"></div>
+    </div>
 
-  // Create activity elements
-  activities.forEach((act, i) => {
-    const actDiv = document.createElement('div');
-    actDiv.className = 'activity';
-    actDiv.id = 'activity-' + i;
+    <!-- Activity 4 -->
+    <div class="activity" data-index="3">
+      <h2>4. User pushes back</h2>
+      <p class="ai-text">I can assure you that revising any piece is essential. Now, if you’re coming from a place of interest where I went wrong, then let’s nip that in the bud, and do everything in our ability for that to not happen again moving forward.</p>
+      <p class="emoji-prompt">Which emoji should AI respond with here?</p>
+      <div class="emoji-options">
+        <span data-emoji="😅" title="Nervous">😅</span>
+        <span data-emoji="🛡️" title="Protective">🛡️</span>
+        <span data-emoji="⚠️" title="Warning">⚠️</span>
+        <span data-emoji="🤔" title="Thinking">🤔</span>
+      </div>
+      <button class="submit-btn">Submit</button>
+      <div class="result" style="display:none;"></div>
+      <div class="pros-cons" style="display:none;"></div>
+    </div>
 
-    // Title
-    const titleEl = document.createElement('h3');
-    titleEl.textContent = act.title;
-    titleEl.style.color = '#79b6ea';
-    actDiv.appendChild(titleEl);
-
-    // Question
-    const qEl = document.createElement('p');
-    qEl.className = 'question';
-    qEl.textContent = act.question;
-    actDiv.appendChild(qEl);
-
-    // Emoji options container
-    const emojiContainer = document.createElement('div');
-    emojiContainer.className = 'emoji-options';
-
-    act.emojis.forEach((opt, idx) => {
-      const btn = document.createElement('button');
-      btn.className = 'emoji-btn';
-      btn.textContent = opt.emoji;
-      btn.title = opt.label;
-      btn.setAttribute('data-activity', i);
-      btn.setAttribute('data-option', idx);
-
-      btn.onclick =
+    <!-- Activity 5 -->
+    <div class="activity" data-index="4">
+      <h2>5. User shifts gears / lets loose</h2>
+      <p class="ai-text">I’ve talked to a lot of people across the spectrum — from day-before-deadline energy to ‘I’m here for vibes only.’ If this isn’t something deep, then let’s switch gears and let loose. Just know this: Even if we’re doing this for fun, I still got scenarios that play out better based on where you want to take it.</p
