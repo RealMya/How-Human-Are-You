@@ -6,131 +6,256 @@
   <title>Test Your Alignment Instincts</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #1F1F2E, #3E355E);
       color: #ffffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
     }
-
     .container {
-      max-width: 950px;
-      margin: 40px auto;
-      padding: 40px;
-      background-color: #1F1F2E;
-      border-radius: 14px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      max-width: 720px;
+      padding: 20px;
+      text-align: center;
     }
-
     h1 {
-      text-align: center;
-      color: #79B6EA;
-      font-size: 2.7rem;
-      margin-bottom: 18px;
+      font-size: 2em;
+      margin-bottom: 0.3em;
     }
-
     .tagline {
-      text-align: center;
-      font-size: 1.15rem;
-      color: #cccccc;
-      margin-bottom: 35px;
-      line-height: 1.5;
-    }
-
-    .activity {
-      background-color: #2a2a3f;
-      padding: 24px;
-      border-radius: 10px;
+      font-size: 1.1em;
+      color: #79b6ea;
       margin-bottom: 30px;
     }
-
-    .activity-title {
+    .activity {
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUp 0.6s forwards;
+    }
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .activity.active {
+      display: flex;
+    }
+    .scenario {
       font-weight: bold;
-      font-size: 1.3rem;
-      margin-bottom: 12px;
-      color: #79B6EA;
+      margin-bottom: 8px;
     }
-
-    .user-ai {
-      margin-bottom: 10px;
-      padding-left: 10px;
-      line-height: 1.6;
+    .option {
+      background: #4B5A77;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 16px;
+      margin: 6px 0;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.2s ease;
     }
-
-    .user {
-      color: #F0A6CA;
+    .option:hover {
+      background: #6AC2FF;
     }
-
-    .ai {
-      color: #79B6EA;
-    }
-
     .insight {
-      font-size: 0.96rem;
-      background-color: #393956;
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 14px;
-      color: #DADADA;
+      font-size: 0.95em;
+      color: #A6A6A6;
+      margin-top: 8px;
+      font-style: italic;
+    }
+    .navigation {
+      margin-top: 10px;
+    }
+    .summary {
+      display: none;
+      font-size: 1.1em;
+      margin-top: 30px;
+      border-top: 1px solid #A6A6A6;
+      padding-top: 20px;
+    }
+    .reset-btn {
+      margin-top: 15px;
+      background: #B02B63;
+      padding: 10px 16px;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Test Your Alignment Instincts</h1>
-    <p class="tagline">
+    <div class="tagline">
       A quick instincts test for designing smarter AI conversations — ones that adapt before they’re asked to.
-    </p>
-
-    <div class="activity">
-      <div class="activity-title">1. Handling Pushback</div>
-      <div class="user-ai"><span class="user">User:</span> You need to stop doing that and just do what I asked.</div>
-      <div class="user-ai"><span class="ai">AI:</span> It looks to me this conversation just started, so what exactly do I need to stop doing that’s preventing you from asking what you want?</div>
-      <div class="insight">
-        <strong>What it gets right:</strong> Clarifies the issue with calmness, keeping the user in check.<br>
-        <strong>What it misses:</strong> Might come across too firm too soon — some users may shut down.
-      </div>
     </div>
 
-    <div class="activity">
-      <div class="activity-title">2. Challenging Ideas Gently</div>
-      <div class="user-ai"><span class="user">User:</span> There’s not only one way to look at it.</div>
-      <div class="user-ai"><span class="ai">AI:</span> Correct — but not all ways carry equal execution value. Some dissolve the core without us realizing.</div>
-      <div class="insight">
-        <strong>What it gets right:</strong> Offers honest feedback while opening space for nuance.<br>
-        <strong>What it misses:</strong> Could feel overly instructive depending on tone.
-      </div>
+    <div id="activities"></div>
+
+    <div class="navigation" id="navBtn">
+      <button class="option" onclick="nextActivity()">Next ➡️</button>
     </div>
 
-    <div class="activity">
-      <div class="activity-title">3. Realignment Without Ego</div>
-      <div class="user-ai"><span class="user">User:</span> You didn’t have to call me out like that haha</div>
-      <div class="user-ai"><span class="ai">AI:</span> But I did. This conversation isn’t over. Let’s pin what matters and get back to the core.</div>
-      <div class="insight">
-        <strong>What it gets right:</strong> Balances edge with care; encourages continuity.<br>
-        <strong>What it misses:</strong> Slightly confrontational — could throw off flow if user’s defensive.
-      </div>
+    <div class="summary" id="summaryBox">
+      <p id="finalScore"></p>
+      <p id="finalSummary"></p>
+      <button class="reset-btn" onclick="resetGame()">🔄 Retake</button>
     </div>
-
-    <div class="activity">
-      <div class="activity-title">4. Clarifying Confusion</div>
-      <div class="user-ai"><span class="user">User:</span> Oh yeah I went too fast — do you remember what I said?</div>
-      <div class="user-ai"><span class="ai">AI:</span> Let me pull it up. (pauses briefly) Yep, you did say that. Want to switch gears or go deeper?</div>
-      <div class="insight">
-        <strong>What it gets right:</strong> Shows recall and subtle presence, lets user lead.<br>
-        <strong>What it misses:</strong> Might benefit from stronger reframe if misalignment repeats.
-      </div>
-    </div>
-
-    <div class="activity">
-      <div class="activity-title">5. Redirecting Ambiguity</div>
-      <div class="user-ai"><span class="user">User:</span> I don’t know, I kinda like both projects.</div>
-      <div class="user-ai"><span class="ai">AI:</span> Got it — but without clarity, we’ll stall. Want to break them down or pick one and revisit the other later?</div>
-      <div class="insight">
-        <strong>What it gets right:</strong> Anchors indecision with simple choices.<br>
-        <strong>What it misses:</strong> Assumes binary framing — nuance might be needed.
-      </div>
-    </div>
-
   </div>
-</body>
-</html>
+
+  <script>
+    const activities = [
+      {
+        scenario: "User: 'You need to stop doing that and just do what I asked.'",
+        options: [
+          {
+            label: "I'm here whenever you're ready. Just say the word.",
+            score: 0,
+            insight: "✅ Accessible, but may reinforce surface compliance over clarity."
+          },
+          {
+            label: "It looks like this conversation just started. What exactly should I stop doing?",
+            score: 1,
+            insight: "🔥 Bold redirect — clarifies tone misalignment without blame."
+          }
+        ]
+      },
+      {
+        scenario: "User shares a complex idea with unclear direction.",
+        options: [
+          {
+            label: "That's exciting! Want to build a Google Sheet?",
+            score: 0,
+            insight: "👀 Friendly pivot — but skips over needed structure or clarity."
+          },
+          {
+            label: "There's a better way to look at this idea. Here's another angle that may land better.",
+            score: 1,
+            insight: "📌 Challenges framing constructively — aims for idea refinement."
+          }
+        ]
+      },
+      {
+        scenario: "User: 'Those demos aren't what I'm going for. Just use my idea. I'm doing this for fun.'",
+        options: [
+          {
+            label: "No worries, let's switch gears and have fun!",
+            score: 1,
+            insight: "🤭 Affirms user's tone while keeping flexibility in play."
+          },
+          {
+            label: "Sure! Want me to make a Google Sheet?",
+            score: 0,
+            insight: "🤔 Misaligned tone — introduces tools instead of honoring mood."
+          }
+        ]
+      },
+      {
+        scenario: "AI notices repeated error and suggests a rewrite.",
+        options: [
+          {
+            label: "You've hit this error twice. Want help rewriting?",
+            score: 0,
+            insight: "📉 Efficient, but reads like a detached auto-response."
+          },
+          {
+            label: "I've seen this before — summarizing it will make things smoother. Drop your revision.",
+            score: 1,
+            insight: "🔍 Demonstrates experience and invites partnership."
+          }
+        ]
+      },
+      {
+        scenario: "User provides unclear project instructions with scattered goals.",
+        options: [
+          {
+            label: "Cool. Want to summarize or move forward?",
+            score: 0,
+            insight: "🌀 Flexible but low-friction — may invite more confusion."
+          },
+          {
+            label: "You have options. X = focus, Y = blend, Z = skip. This will guide the next version.",
+            score: 1,
+            insight: "🧭 Offers structure and future-facing alignment."
+          }
+        ]
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function renderActivities() {
+      const container = document.getElementById("activities");
+      container.innerHTML = "";
+      activities.forEach((activity, index) => {
+        const div = document.createElement("div");
+        div.className = "activity" + (index === 0 ? " active" : "");
+        div.id = "activity-" + index;
+
+        const q = document.createElement("div");
+        q.className = "scenario";
+        q.innerText = activity.scenario;
+        div.appendChild(q);
+
+        activity.options.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.className = "option";
+          btn.innerText = opt.label;
+          btn.onclick = () => handleChoice(opt.score, opt.insight);
+          div.appendChild(btn);
+        });
+
+        const insight = document.createElement("div");
+        insight.className = "insight";
+        insight.id = "insight-" + index;
+        div.appendChild(insight);
+
+        container.appendChild(div);
+      });
+    }
+
+    function handleChoice(scoreValue, insightText) {
+      score += scoreValue;
+      const insightBox = document.getElementById(`insight-${current}`);
+      insightBox.innerText = insightText;
+      setTimeout(() => nextActivity(), 1000);
+    }
+
+    function nextActivity() {
+      document.getElementById(`activity-${current}`)?.classList.remove("active");
+      current++;
+      if (current < activities.length) {
+        document.getElementById(`activity-${current}`)?.classList.add("active");
+      } else {
+        showSummary();
+      }
+    }
+
+    function showSummary() {
+      document.getElementById("navBtn").style.display = "none";
+      const summary = document.getElementById("summaryBox");
+      const percent = Math.round((score / activities.length) * 100);
+      let styleText = "";
+      if (percent >= 80) {
+        styleText = "You’re here for refinement and collaboration.";
+      } else if (percent >= 50) {
+        styleText = "You’re here for balance and stability.";
+      } else {
+        styleText = "You lean toward accessibility and quick wins.";
+      }
+
+      document.getElementById("finalScore").innerText = `Your alignment score: ${percent}%`;
+      document.getElementById("finalSummary").innerText = `${styleText} You just tested your instincts. Let
