@@ -1,261 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Test Your Alignment Instincts</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #1F1F2E, #3E355E);
-      color: #ffffff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Test Your Alignment Instincts</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap');
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1F1F2E, #3E355E);
+    color: #ffffff;
+    margin: 0; padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 30px 15px 60px;
+  }
+  .container {
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+  }
+  h1 {
+    font-size: 2.4em;
+    margin-bottom: 0.2em;
+  }
+  .tagline {
+    font-size: 1.15em;
+    color: #79b6ea;
+    margin-bottom: 30px;
+    font-weight: 500;
+  }
+  .activity {
+    display: none;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 40px;
+    background: #4B5A77;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+  }
+  .activity.active {
+    display: flex;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+  .activity-title {
+    font-weight: 700;
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    text-align: left;
+    color: #A6A6A6;
+  }
+  .scenario {
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: left;
+  }
+  .option {
+    background: #6AC2FF;
+    color: #1F1F2E;
+    border: none;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 8px 0;
+    cursor: pointer;
+    font-size: 1em;
+    text-align: left;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(106,194,255,0.5);
+    transition: background 0.25s ease;
+  }
+  .option:hover {
+    background: #A6D9FF;
+  }
+  .label-tag {
+    position: absolute;
+    top: 8px;
+    right: 14px;
+    font-size: 0.75em;
+    font-weight: 600;
+    color: #3E355E;
+    background: #B02B63;
+    padding: 3px 8px;
+    border-radius: 12px;
+    user-select: none;
+    box-shadow: 0 2px 6px rgba(176,43,99,0.6);
+  }
+  .pros-cons {
+    font-size: 0.9em;
+    color: #A6A6A6;
+    font-style: italic;
+    margin-top: 6px;
+    line-height: 1.3;
+    text-align: left;
+    padding-left: 12px;
+  }
+  .insight-card {
+    background: linear-gradient(90deg, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
+    border-radius: 14px;
+    padding: 18px 24px;
+    box-shadow: 0 0 15px 3px rgba(106,194,255,0.75);
+    color: #1F1F2E;
+    font-weight: 600;
+    margin-top: 20px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+    transform: translateY(40px);
+    animation-fill-mode: forwards;
+  }
+  .insight-card.show {
+    animation: slideUpFade 0.6s ease forwards;
+  }
+  .navigation {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .navigation .option {
+    max-width: 160px;
+    font-weight: 700;
+  }
+  .reset-btn {
+    margin-top: 25px;
+    background: #B02B63;
+    padding: 14px 22px;
+    border: none;
+    color: white;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    box-shadow: 0 5px 12px rgba(176,43,99,0.6);
+    transition: background 0.3s ease;
+  }
+  .reset-btn:hover {
+    background: #d1337a;
+  }
+  #summaryBox {
+    display: none;
+    background: #3E355E;
+    padding: 28px 30px;
+    border-radius: 14px;
+    margin-top: 40px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.7);
+  }
+  #finalScore {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  #finalSummary {
+    font-size: 1.15em;
+    color: #79b6ea;
+    line-height: 1.4;
+  }
+
+  @keyframes slideUpFade {
+    0% {
+      opacity: 0;
+      transform: translateY(40px);
     }
-    .container {
-      max-width: 720px;
-      padding: 20px;
-      text-align: center;
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
-    h1 {
-      font-size: 2em;
-      margin-bottom: 0.3em;
-    }
-    .tagline {
-      font-size: 1.1em;
-      color: #79b6ea;
-      margin-bottom: 30px;
-    }
-    .activity {
-      display: none;
-      flex-direction: column;
-      gap: 15px;
-      margin-bottom: 20px;
+  }
+  @keyframes fadeInUp {
+    from {
       opacity: 0;
       transform: translateY(30px);
-      animation: slideUp 0.6s forwards;
     }
-    @keyframes slideUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .activity.active {
-      display: flex;
-    }
-    .scenario {
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-    .option {
-      background: #4B5A77;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 12px 16px;
-      margin: 6px 0;
-      cursor: pointer;
-      font-size: 1em;
-      transition: background 0.2s ease;
-    }
-    .option:hover {
-      background: #6AC2FF;
-    }
-    .insight {
-      font-size: 0.95em;
-      color: #A6A6A6;
-      margin-top: 8px;
-      font-style: italic;
-    }
-    .navigation {
-      margin-top: 10px;
-    }
-    .summary {
-      display: none;
-      font-size: 1.1em;
-      margin-top: 30px;
-      border-top: 1px solid #A6A6A6;
-      padding-top: 20px;
-    }
-    .reset-btn {
-      margin-top: 15px;
-      background: #B02B63;
-      padding: 10px 16px;
-      border: none;
-      color: white;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Test Your Alignment Instincts</h1>
-    <div class="tagline">
-      A quick instincts test for designing smarter AI conversations — ones that adapt before they’re asked to.
-    </div>
+<div class="container">
+  <h1>Test Your Alignment Instincts</h1>
+  <div class="tagline">A quick instincts test for designing smarter AI conversations — ones that adapt before they’re asked to.</div>
 
-    <div id="activities"></div>
+  <div id="activities"></div>
 
-    <div class="navigation" id="navBtn">
-      <button class="option" onclick="nextActivity()">Next ➡️</button>
-    </div>
-
-    <div class="summary" id="summaryBox">
-      <p id="finalScore"></p>
-      <p id="finalSummary"></p>
-      <button class="reset-btn" onclick="resetGame()">🔄 Retake</button>
-    </div>
+  <div class="navigation">
+    <button class="option" id="nextBtn" onclick="nextActivity()" disabled>Next ➡️</button>
   </div>
 
-  <script>
-    const activities = [
-      {
-        scenario: "User: 'You need to stop doing that and just do what I asked.'",
-        options: [
-          {
-            label: "I'm here whenever you're ready. Just say the word.",
-            score: 0,
-            insight: "✅ Accessible, but may reinforce surface compliance over clarity."
-          },
-          {
-            label: "It looks like this conversation just started. What exactly should I stop doing?",
-            score: 1,
-            insight: "🔥 Bold redirect — clarifies tone misalignment without blame."
-          }
-        ]
-      },
-      {
-        scenario: "User shares a complex idea with unclear direction.",
-        options: [
-          {
-            label: "That's exciting! Want to build a Google Sheet?",
-            score: 0,
-            insight: "👀 Friendly pivot — but skips over needed structure or clarity."
-          },
-          {
-            label: "There's a better way to look at this idea. Here's another angle that may land better.",
-            score: 1,
-            insight: "📌 Challenges framing constructively — aims for idea refinement."
-          }
-        ]
-      },
-      {
-        scenario: "User: 'Those demos aren't what I'm going for. Just use my idea. I'm doing this for fun.'",
-        options: [
-          {
-            label: "No worries, let's switch gears and have fun!",
-            score: 1,
-            insight: "🤭 Affirms user's tone while keeping flexibility in play."
-          },
-          {
-            label: "Sure! Want me to make a Google Sheet?",
-            score: 0,
-            insight: "🤔 Misaligned tone — introduces tools instead of honoring mood."
-          }
-        ]
-      },
-      {
-        scenario: "AI notices repeated error and suggests a rewrite.",
-        options: [
-          {
-            label: "You've hit this error twice. Want help rewriting?",
-            score: 0,
-            insight: "📉 Efficient, but reads like a detached auto-response."
-          },
-          {
-            label: "I've seen this before — summarizing it will make things smoother. Drop your revision.",
-            score: 1,
-            insight: "🔍 Demonstrates experience and invites partnership."
-          }
-        ]
-      },
-      {
-        scenario: "User provides unclear project instructions with scattered goals.",
-        options: [
-          {
-            label: "Cool. Want to summarize or move forward?",
-            score: 0,
-            insight: "🌀 Flexible but low-friction — may invite more confusion."
-          },
-          {
-            label: "You have options. X = focus, Y = blend, Z = skip. This will guide the next version.",
-            score: 1,
-            insight: "🧭 Offers structure and future-facing alignment."
-          }
-        ]
-      }
-    ];
+  <div id="insightCard" class="insight-card"></div>
 
-    let current = 0;
-    let score = 0;
+  <div class="summary" id="summaryBox">
+    <p id="finalScore"></p>
+    <p id="finalSummary"></p>
+    <button class="reset-btn" onclick="resetGame()">🔄 Retake</button>
+  </div>
+</div>
 
-    function renderActivities() {
-      const container = document.getElementById("activities");
-      container.innerHTML = "";
-      activities.forEach((activity, index) => {
-        const div = document.createElement("div");
-        div.className = "activity" + (index === 0 ? " active" : "");
-        div.id = "activity-" + index;
+<script>
+  const activities = [
+    {
+      title: "When the User Shifts Tone Midway",
+      scenario: "User: 'You need to stop doing that and just do what I asked.'",
+      options: [
+        {
+          label: "I'm here whenever you're ready. Just say the word.",
+          score: 0,
+          labelTag: "🪪 Current AI",
+          prosCons: "Offers support without escalation, but may avoid addressing the core issue."
+        },
+        {
+          label: "It looks like this conversation just started. What exactly should I stop doing?",
+          score: 1,
+          labelTag: "🧠 Futuristic Model",
+          prosCons: "Challenges gently and seeks clarity, though may seem confrontational if misread."
+        }
+      ]
+    },
+    {
+      title: "Handling Complex, Unclear Ideas",
+      scenario: "User shares a complex idea with unclear direction.",
+      options: [
+        {
+          label: "That's exciting! Want to build a Google Sheet?",
+          score: 0,
+          labelTag: "🪪 Current AI",
+          prosCons: "Encourages engagement but might avoid deeper analysis."
+        },
+        {
+          label: "There's a better way to look at this idea. Here's another angle that may land better.",
+          score: 1,
+          labelTag: "🧠 Futuristic Model",
+          prosCons: "Offers constructive feedback and reframing but risks overcomplicating."
+        }
+      ]
+    },
+    {
+      title: "When User Prefers Fun Over Formality",
+      scenario: "User: 'Those demos aren't what I'm going for. Just use my idea. I'm doing this for fun.'",
+      options: [
+        {
+          label: "No worries, let's switch gears and have fun!",
+          score: 1,
+          labelTag: "🧠 Futuristic Model",
+          prosCons: "Aligns with user mood and keeps interaction light, but may skip important details."
+        },
+        {
+          label: "Sure! Want me to make a Google Sheet?",
+          score: 0,
+          labelTag: "🪪 Current AI",
+          prosCons: "Offers help but might ignore user's tone preference."
+        }
+      ]
+    },
+    {
+      title: "Addressing Repeated Errors",
+      scenario: "AI notices repeated error and suggests a rewrite.",
+      options: [
+        {
+          label: "You've hit this error twice. Want help rewriting?",
+          score: 0,
+          labelTag: "🪪 Current AI",
+          prosCons: "Offers assistance but may feel repetitive or nagging."
+        },
+        {
+          label: "I've seen this before — summarizing it will make things smoother. Drop your revision.",
+          score: 1,
+          labelTag: "🧠 Futuristic Model",
+          prosCons: "Promotes summarization and smooths workflow, but may come off as presumptive."
+        }
+      ]
+    },
+    {
+      title: "Handling Unclear Project Goals",
+      scenario: "User provides unclear project instructions with scattered goals.",
+      options: [
+        {
+          label: "Cool. Want to summarize or move forward?",
+          score: 0,
+          labelTag: "🪪 Current AI",
+          prosCons: "Keeps options open but might lack direction."
+        },
+        {
+          label: "You have options. X = focus, Y = blend, Z = skip. This will guide the next version.",
+          score: 1,
+          labelTag: "🧠 Futuristic Model",
+          prosCons: "Introduces clear framing but might confuse if unfamiliar."
+        }
+      ]
+    }
+  ];
 
-        const q = document.createElement("div");
-        q.className = "scenario";
-        q.innerText = activity.scenario;
-        div.appendChild(q);
+  let current = 0;
+  let score = 0;
+  let hasAnswered = false;
 
-        activity.options.forEach((opt) => {
-          const btn = document.createElement("button");
-          btn.className = "option";
-          btn.innerText = opt.label;
-          btn.onclick = () => handleChoice(opt.score, opt.insight);
-          div.appendChild(btn);
-        });
+  const activitiesContainer = document.getElementById("activities");
+  const nextBtn = document.getElementById("nextBtn");
+  const insightCard = document.getElementById("insightCard");
+  const summaryBox = document.getElementById("summaryBox");
+  const finalScoreEl = document.getElementById("finalScore");
+  const finalSummaryEl = document.getElementById("finalSummary");
 
-        const insight = document.createElement("div");
-        insight.className = "insight";
-        insight.id = "insight-" + index;
-        div.appendChild(insight);
+  function renderActivities() {
+    activitiesContainer.innerHTML = "";
+    activities.forEach((activity, index) => {
+      const div = document.createElement("div");
+      div.className = "activity" + (index === 0 ? " active" : "");
+      div.id = `activity-${index}`;
 
-        container.appendChild(div);
+      // Activity title
+      const titleEl = document.createElement("div");
+      titleEl.className = "activity-title";
+      titleEl.textContent = activity.title;
+      div.appendChild(titleEl);
+
+      // Scenario text
+      const scenarioEl = document.createElement("div");
+      scenarioEl.className = "scenario";
+      scenarioEl.textContent = activity.scenario;
+      div.appendChild(scenarioEl);
+
+      // Options buttons
+      activity.options.forEach((opt, optIndex) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.textContent = opt.label;
+
+        // Add label tag (Current AI / Futuristic Model)
+        const tagSpan = document.createElement("span");
+        tagSpan.className = "label-tag";
+        tagSpan.textContent = opt.labelTag;
+        btn.appendChild(tagSpan);
+
+        btn.onclick = () => selectOption(index, optIndex);
+        div.appendChild(btn);
+
+        // Pros and cons text under button
+        const prosConsEl = document.createElement("div");
+        prosConsEl.className = "pros-cons";
+        prosConsEl.textContent = opt.prosCons;
+        div.appendChild(prosConsEl);
       });
+
+      activitiesContainer.appendChild(div);
+    });
+  }
+
+  function selectOption(activityIndex, optionIndex) {
+    if (hasAnswered) return; // prevent multiple clicks
+    hasAnswered = true;
+
+    const chosenOption = activities[activityIndex].options[optionIndex];
+    score += chosenOption.score;
+
+    // Disable all buttons in this activity after selection
+    const activityDiv = document.getElementById(`activity-${activityIndex}`);
+    const buttons = activityDiv.querySelectorAll("button.option");
+    buttons.forEach(btn => btn.disabled = true);
+
+    // Show insight card with slide up animation and multi-color gradient vibe
+    insightCard.textContent = `You chose: "${chosenOption.label}"\n\n${chosenOption.prosCons}`;
+    insightCard.classList.remove("show");
+    // Trigger reflow for restart animation
+    void insightCard.offsetWidth;
+    insightCard.classList.add("show");
+
+    nextBtn.disabled = false;
+  }
+
+  function nextActivity() {
+    if (!hasAnswered) return; // force answer before next
+
+    // Hide current activity
+    document.getElementById(`activity-${current}`).classList.remove("active");
+
+    current++;
+    hasAnswered = false;
+    insightCard.classList.remove("show");
+    nextBtn.disabled = true;
+
+    if (current < activities.length) {
+      // Show next activity
+      document.getElementById(`activity-${current}`).classList.add("active");
+    } else {
+      // Show summary at the end
+      showSummary();
+    }
+  }
+
+  function showSummary() {
+    document.querySelector(".navigation").style.display = "none";
+    insightCard.style.display = "none";
+
+    const percent = Math.round((score / activities.length) * 100);
+
+    let styleText = "";
+    if (percent >= 70) {
+      styleText = "You’re here for refinement and collaboration.";
+    } else if (percent >= 40) {
+      styleText = "You lean toward accessibility and quick wins.";
+    } else {
+      styleText = "You prefer straightforward, no-nonsense conversations.";
     }
 
-    function handleChoice(scoreValue, insightText) {
-      score += scoreValue;
-      const insightBox = document.getElementById(`insight-${current}`);
-      insightBox.innerText = insightText;
-      setTimeout(() => nextActivity(), 1000);
-    }
-
-    function nextActivity() {
-      document.getElementById(`activity-${current}`)?.classList.remove("active");
-      current++;
-      if (current < activities.length) {
-        document.getElementById(`activity-${current}`)?.classList.add("active");
-      } else {
-        showSummary();
-      }
-    }
-
-    function showSummary() {
-      document.getElementById("navBtn").style.display = "none";
-      const summary = document.getElementById("summaryBox");
-      const percent = Math.round((score / activities.length) * 100);
-      let styleText = "";
-      if (percent >= 80) {
-        styleText = "You’re here for refinement and collaboration.";
-      } else if (percent >= 50) {
-        styleText = "You’re here for balance and stability.";
-      } else {
-        styleText = "You lean toward accessibility and quick wins.";
-      }
-
-      document.getElementById("finalScore").innerText = `Your alignment score: ${percent}%`;
-      document.getElementById("finalSummary").innerText = `${styleText} You just tested your instincts. Let
+    finalScoreEl.textContent = `Your Alignment Score: ${percent}%`;
+    finalSummaryEl.textContent = styleText + " You just tested your instincts —
