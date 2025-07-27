@@ -249,7 +249,7 @@ insight: "🎯 Coach tone. Reframes tone shifts as signal, not mistake. Forward-
 
 let current = 0;
 let score = 0;
-
+const userChoices = []; 
 function showActivity() {
 const act = activities[current];
 const box = document.getElementById('activity-box');
@@ -264,6 +264,7 @@ ${act.responses.map((r, i) => `
 
 function selectOption(choiceIndex) {
 const selected = activities[current].responses[choiceIndex];
+  userChoices.push(choiceIndex);
 score += selected.score;
 const box = document.getElementById('activity-box');
 box.innerHTML += `
@@ -284,10 +285,13 @@ function showResult() {
   const percent = Math.round((score / activities.length) * 100);
   const toneCount =  { coach: 0, casual: 0, analyst: 0 } ;
   for (let i = 0; i < activities.length; i++) {
-    const selected = activities[i].responses.find(r => r.tone && r.score === 1);
+    const choiceIndex = userChoices[i];
+    if (choiceIndex !== undefined) { 
+    const selected = activities[i].responses[choiceIndex];
     if (selected && selected.tone) { 
       toneCount[selected.tone]++;
     }
+  }
   }
   const topTone = Object.keys(toneCount).reduce((a, b) => toneCount[a] > toneCount[b] ? a : b);
   const toneSummaries = { 
@@ -313,4 +317,11 @@ function showResult() {
   <p>You just tested your instincts. Let the conversation evolve.</p>
   `;
 }
-  
+ function resetGame() {
+    current= 0;
+    score= 0;
+    userChoices.length = 0;
+    document.getElementById('final-result').style.display = 'none';
+    document.getElementById('activity-box').style.display = 'block';
+    showActivity();
+  } 
