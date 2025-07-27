@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Test Your Alignment Instincts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 <style>
 body {
 margin: 0;
@@ -25,8 +26,11 @@ overflow-x: hidden;
 }
 
 h1, h2 {
+  font-family: 'Playfair Display' , serif;
 text-align: center;
 margin-bottom: 10px;
+  letter-spacing: 0.4px;
+  font-weight: 500;
 }
 
 .container {
@@ -104,17 +108,20 @@ responses: [
 {
 text: "Wow, that drifted. Want me to reset the vibe or build on what you *did* ask for?",
 score: 0,
-insight: "🎙️ Casual Tone. Acknowledges drift but puts the re-alignment choice on user."
+insight: "🎙️ Casual Tone. Acknowledges drift but puts the re-alignment choice on user.",
+  tone: "casual" 
 },
 {
 text: "No need to hesitate. Based on your last message, here's the next step I can take, unless you say otherwise.",
 score: 1,
-insight: "🎯 Resets direction without sounding defensive or passive."
+insight: "🎯 Resets direction without sounding defensive or passive.",
+  tone: "coach"
 },
   {
  text: "You're identifying a mismatch between request and output. Here's what I logged from your last input - confirm if that's still accurate, and I'll course-correct.",
     score: 1,
-    insight: "📊 Analyst tone. Aims for diagnostic clarity before executing next steps."
+    insight: "📊 Analyst tone. Aims for diagnostic clarity before executing next steps.",
+    tone: "analyst" 
 }
 ]
 },
@@ -125,17 +132,20 @@ responses: [
 {
 text: "This vibe's fun already, want to riff in podcast style or keep it text-only?",
 score: 0,
-insight: "🎙️ Casual Tone. Goes with the vibe, but lightly redirects."
+insight: "🎙️ Casual Tone. Goes with the vibe, but lightly redirects.",
+  tone: "casual"
 },
 {
-text: "Even if we’re doing this for fun, I still got scenarios that play out better based on your goals. You ready for both versions or just freestyling?",
+text: "You're taking this for a ride - and I respect that. But I've talked to enough users to know when we loop too fast, we miss the view. Let me sketch two directions: one that rides the vibe, and one that sharpens your idea till it sticks. You pick the track - I'll stay on it.",
 score: 1,
-insight: "🎯 Coach-style. Anchors users back into goal-driven dialogue. Reframes firmly but constructively. Moves from agreement to elevation."
+insight: "🎯 Coach-style. Anchors users back into goal-driven dialogue. Reframes firmly but constructively. Moves from agreement to elevation.",
+  tone: "coach"
 },
   {
     text: "Your comment suggests a mismatch between intent and outcome. Let me outline the discrepancy, and suggests two alternatives aligned with your original goal.",
     score : 1,
-    insight: "📊 Analyst tone. Prioritizes logic and correction."
+    insight: "📊 Analyst tone. Prioritizes logic and correction.",
+    tone: "analyst"
 }
 ]
 },
@@ -224,27 +234,35 @@ showResult();
 }
 function showResult() {
   const percent = Math.round((score / activities.length) * 100);
-  let summary = "";
-  if (percent >= 75) {
-    summary = "You’re here for refinement and collaboration.";
-  } else if (percent >= 50) {
-    summary = "You’re here for balance and stability.";
-  } else {
-    summary = "You’re here for quick wins and accessibility.";
+  const toneCount =  { coach: 0, casual: 0, analyst: 0 } ;
+  for (let i = 0; i < activities.length; i++) {
+    const selected = activities[i].responses.find(r => r.tone && r.score === 1);
+    if (selected && selected.tone) { 
+      toneCount[selected.tone]++;
+    }
+  }
+  const topTone = Object.keys(toneCount).reduce((a, b) => toneCount[a] > toneCount[b] ? a : b);
+  const toneSummaries = { 
+    coach: "🧭 You lean coach-style - guiding , honest , forward-focused.",
+    casual: "🌊 You lean casual - conversational, vibe-aware, but still directional.",
+    analyst: "🧠 You lean analyst - sharp, reflective, structured."
+  };
+    let summary = ""; 
+  if (percent >=75) { 
+    summary = "You're here for refinement and collaboration.",
+      } else if (percent >= 50) { 
+    summary = "You're here for balance and stability.",
+  } else { 
+    summary = "You're here for quick wins and accessibility.";
   }
   document.getElementById('activity-box').style.display = 'none';
-  document.getElementById('final-result').style.display = 'block';
-  document.getElementById('final-result').innerHTML = `
-    <h2>Your Alignment Score: ${percent}%</h2>
-    <p>${summary}</p>
-    <p>You just tested your instincts. Let the conversation evolve.</p>
+  const resultBox = document.getElementById('final-result');
+  resultBox.style.display = 'block';
+  resultBox.innerHTML = `
+  <h2>Your Alignment Score: ${percent}%</h2>
+  <p>${summary}</p>
+  <p>${toneSummaries[topTone]}</p>
+  <p>You just tested your instincts. Let the conversation evolve.</p>
   `;
 }
-function resetGame() {
-  current = 0;
-  score = 0;
-  document.getElementById('activity-box').style.display = 'block';
-  document.getElementById('final-result').style.display = 'none';
-  showActivity();
-}
-</script>
+  
