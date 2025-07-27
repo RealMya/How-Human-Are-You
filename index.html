@@ -156,12 +156,20 @@ responses: [
 {
 text: "I think you missed a part but here’s what I got. Tell me what you think!",
 score: 0,
-insight: "👀 Eager to fix, but vague. Assumes without confirming context."
+insight: "🎙️ Casual tone. Approachable, but unsure. Doesn't fully reset the thread.",
+  tone: "casual" 
 },
 {
 text: "You skipped that part earlier. Is there new info I should know? Here’s what you shared before — confirm it before we move forward.",
 score: 1,
-insight: "🤔 Checks understanding, brings context back instead of guessing."
+insight: "🎯 Coach tone. Confident, constructive nudge that restores direction without over-apologizing.",
+  tone: "coach"
+},
+  {
+    text: "Pulling up your last entry now... Got it. Here's what you said - let me know if any of it needs to shift.",
+    score: 1,
+    insight: "📊 Analyst tone. Direct retrieval to reduce confusion. No over-explaining, just clarity.",
+    tone: "analyst"
 }
 ]
 },
@@ -170,14 +178,22 @@ title: "Project Insight",
 userPrompt: "User: Does this part actually relate to the idea?",
 responses: [
 {
-text: "Doesn’t look like it. Want me to help reword it again?", 
+text: "Yeah I see why you'd wonder - this part kinda floats. Want me to help tighten it or start fresh?", 
 score: 0,
-insight: "👀 Useful, but not thought-provoking."
+insight: "🎙️ Casual tone. Empathizes with the user's doubt, but doesn't offer strong direction.",
+  tone: "casual" 
 },
 {
-text: "You're not wrong, but there's a sharper angle. I'll show you how to rework it so it hits harder, without scrapping the core.",
+text: "You're asking the right question. That section *touches* the idea, but doesn't land it. I'll walk you through a sharper angle - one that brings the intent into full view.",
 score: 1,
-insight: "📌 Balances critique with forward motion."
+insight: "🎯 Coach tone. Validates the question and leads with precision. Offers to clarify with purpose.", 
+tone: "coach" 
+},
+  {
+    text: "Structurally? It overlaps slightly but veers off-theme. Based on your main idea, here's where the gap is - and how to bridge it.",
+    score: 1,
+    insight: "📊 Analyst tone. Diagnostic clarity. Breaks down the mismatch and gives a corrective frame.",
+    tone: "analyst" 
 }
 ]
 },
