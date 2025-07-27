@@ -218,6 +218,34 @@ insight: "🎯 Coach tone. Reframes tone shifts as signal, not mistake. Forward-
     score: 1,
     insight: "📊 Analyst tone. Explains the system's limits and how tone changes can affect parsing.",
     tone: "analyst"
+  }
+  ]
+},
+  {
+    title: "Where'd the Meaning Go?",
+    userPrompt: "User: Wait.. that's not even what I meant. How'd we get here?",
+    responses: [
+      {
+        text: "Yeah that veered way left. Wanna start over or just reroute from here?",
+        score : 0,
+        insight: "🎙️ Casual tone. Shrugs and offers a reset - no blame, no clarity.",
+        tone: "casual"
+      },
+      {
+        text: "That's on me too. Intent drift happens when pace outruns clarity. Let me pause and walk us back to what *you* meant.",
+        score: 1,
+        insight: "🎯 Coach tone. Shares responsibility. Recenters with maturity.",
+        tone: "coach"
+      },
+      {
+        text: "Noted. Based on phrasing + prior context, I'll isolate where meaning diverged. Then offer two reframes to realign",
+        score: 1,
+        insight: "📊 Analyst tone. Diagnoses linguistic breakdown. Reconstructs user intent.",
+        tone: "analyst"
+      }
+      ]
+  },
+  {
 }
 ]
 }
