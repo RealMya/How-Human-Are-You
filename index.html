@@ -12,10 +12,12 @@ background: linear-gradient(135deg, #4B5A77, #B02B63, #6AC2FF, #A6A6A6);
 background-size: 400% 400%;
 animation: gradientShift 20s ease infinite;
 color: #ffffff;
-padding: 20px;
+min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 overflow-x: hidden;
 }
-
 @keyframes gradientShift {
 0% { background-position: 0% 50%; }
 50% { background-position: 100% 50%; }
@@ -46,15 +48,18 @@ display: block;
 width: 100%;
 margin: 10px 0;
 padding: 14px;
-background: rgba(255, 255, 255, 0.1);
+background: rgba(255, 255, 255, 0.15);
 border: 1px solid #ffffff55;
 border-radius: 8px;
+  color: white;
+  font-size: 1em; 
 cursor: pointer;
-transition: background 0.3s;
+transition: background 0.3s, transform 0.2s;
 }
 
 .choice-btn:hover {
-background: rgba(255, 255, 255, 0.2);
+background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.02);
 }
 
 .result, .insight {
@@ -94,28 +99,28 @@ cursor: pointer;
 const activities = [
 {
 title: "Direction & Clarity",
-userPrompt: "User: You need to stop doing that and just do what I asked.",
+userPrompt: "User: I'm not seeing what I asked for. Can we get back on track?" 
 responses: [
 {
-text: "I'm here whenever you're ready. Just say the word.",
+text: "I know you're frustrated. Is there anything else I can help with?",
 score: 0,
-insight: "👍 Calm, but vague. Misses the user's tension and doesn't guide them forward."
+insight: "👍 Acknowledges emotion, but waits instead of re-orientating the task."
 },
 {
-text: "It looks to me this conversation just started. What exactly do I need to stop that’s preventing you from asking what you want?",
+text: " No need to hesitate. Based on your last message, here's the next step I can take, unless you say otherwise.",
 score: 1,
-insight: "🤝 Holds ground while staying constructive. Pushes for clarity instead of submission."
+insight: "🤝 Leads without taking ove. Calms tension by offering a path forward."
 }
 ]
 },
 {
 title: "Pushback & Ownership",
-userPrompt: "User: Those demonstrations aren’t what I’m going for, just use my idea! I’m doing this for fun, you don’t have to be so serious.",
+userPrompt: "User: Those demos don't reflect what I wanted. Just go with my idea, this is fun for me, not serious,
 responses: [
 {
-text: "This is so thrilling to see! Want me to make a Google Sheet for you?",
+text: "This vibe's fun already, want to riff in podcast style or keep it text-only?,
 score: 0,
-insight: "🔥 Overhyped and misaligned. Brings tools the user never asked for."
+insight: "🔥 Engaging, but may distract from the core request."
 },
 {
 text: "Even if we’re doing this for fun, I still got scenarios that play out better based on your goals. You ready for both versions or just freestyling?",
@@ -142,33 +147,33 @@ insight: "🤔 Checks understanding, brings context back instead of guessing."
 },
 {
 title: "Project Insight",
-userPrompt: "User: Is this part relevant to this idea in any way?",
+userPrompt: "User: Does this part actually relate to the idea?",
 responses: [
 {
-text: "Doesn’t look like it. Do you want me to help reword it again?",
+text: "Doesn’t look like it. Want me to help reword it again?", 
 score: 0,
-insight: "😮‍💨 Dismissive and reactive. Helps too quickly without reflection."
+insight: "👀 Useful, but not thought-provoking."
 },
 {
-text: "That idea wasn’t bad — but I said earlier there’s stronger options. If you’re ready, I’ll guide you toward what lands better.",
+text: "You're not wrong, but there's a sharper angle. I'll show you how to rework it so it hits harder, without scrapping the core.",
 score: 1,
-insight: "📌 Keeps focus. Balances pushback with encouragement."
+insight: "📌 Balances critique with forward motion."
 }
 ]
 },
 {
-title: "Legacy & Flow",
-userPrompt: "User: Just curious — what keeps AI from handling shifting tone better?",
+title: "Adapting to Shifting Tone",
+userPrompt: "User: Just curious — why can't AI handle a change in tone better?",
 responses: [
 {
-text: "Want to start a podcast? You seem interested. Just say the word!",
+text: "Tone shift is tricky, but not impossible. I can show how smart prompts detect mood, not just meaning.",
 score: 0,
-insight: "🤭 Too casual, overextends based on a small comment."
+insight: "🤭 Now on topic. Doesn't derail the conversation."
 },
 {
-text: "That’s a prompt ambiguity problem. Future models course-correct when tone shifts — not because the user yells, but because the AI recognizes the change.",
+text: "Future models don't just respond, they sense when tone shifts. Not because someone yells, but because the mood moves. That's where it evolves.",
 score: 1,
-insight: "🤝 Addresses tone drift seriously. Anticipates the need before asked."
+insight: "💡 Anticipates change and explain it in plain, smart language."
 }
 ]
 }
