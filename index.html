@@ -102,14 +102,19 @@ title: "Direction & Clarity",
 userPrompt: "User: I'm not seeing what I asked for. Can we get back on track?",
 responses: [
 {
-text: "I know you're frustrated. Is there anything else I can help with?",
+text: "Wow, that drifted. Want me to reset the vibe or build on what you *did* ask for?",
 score: 0,
-insight: "👍 Acknowledges emotion, but waits instead of re-orientating the task."
+insight: "🎙️ Casual Tone. Acknowledges drift but puts the re-alignment choice on user."
 },
 {
 text: "No need to hesitate. Based on your last message, here's the next step I can take, unless you say otherwise.",
 score: 1,
-insight: "🤝 Leads without taking over. Calms tension by offering a path forward."
+insight: "🎯 Resets direction without sounding defensive or passive."
+},
+  {
+ text: "You're identifying a mismatch between request and output. Here's what I logged from your last input - confirm if that's still accurate, and I'll course-correct.",
+    score: 1,
+    insight: "📊 Analyst tone. Aims for diagnostic clarity before executing next steps."
 }
 ]
 },
@@ -120,12 +125,17 @@ responses: [
 {
 text: "This vibe's fun already, want to riff in podcast style or keep it text-only?",
 score: 0,
-insight: "🔥 Engaging, but may distract from the core request."
+insight: "🎙️ Casual Tone. Goes with the vibe, but lightly redirects."
 },
 {
 text: "Even if we’re doing this for fun, I still got scenarios that play out better based on your goals. You ready for both versions or just freestyling?",
 score: 1,
-insight: "📌 Respectful realism. Shows flexibility while still guiding."
+insight: "🎯 Coach-style. Anchors users back into goal-driven dialogue. Reframes firmly but constructively. Moves from agreement to elevation."
+},
+  {
+    text: "Your comment suggests a mismatch between intent and outcome. Let me outline the discrepancy, and suggests two alternatives aligned with your original goal.",
+    score : 1,
+    insight: "📊 Analyst tone. Prioritizes logic and correction."
 }
 ]
 },
